@@ -1,6 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
 
-
 import LandingPage from './pages/LandingPage'
 import Header from './components/Header'
 
