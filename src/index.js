@@ -5,6 +5,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client'
 import { ChakraProvider } from "@chakra-ui/react"
 import './index.css';
 import App from './App';
+import { theme } from './styles/theme';
 
 //apollo client
 const client = new ApolloClient({
@@ -15,7 +16,7 @@ const client = new ApolloClient({
 ReactDOM.render(
   <BrowserRouter>
     <ApolloProvider client={client}>
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <App />
       </ChakraProvider>
     </ApolloProvider>

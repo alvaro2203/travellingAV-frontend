@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Flex, Spacer, Box, IconButton, useColorMode } from "@chakra-ui/react"
+import { Flex, Spacer, Box, IconButton, useColorMode, Text } from "@chakra-ui/react"
 import Fade from 'react-reveal/Fade';
 
 //icons
@@ -15,11 +15,11 @@ export default function Header() {
     <Flex p="6">
       <Box>
         <Link to="/">
-          <h1>
+          <Text fontSize="2xl">
             <Fade left cascade>
               {appName}
             </Fade>
-          </h1>
+          </Text>
         </Link>
       </Box>
       <Spacer />
