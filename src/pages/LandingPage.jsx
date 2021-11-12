@@ -1,6 +1,7 @@
 import { useQuery, gql } from '@apollo/client'
-import { Container, Select } from "@chakra-ui/react"
+import { Container, Select, Spinner } from "@chakra-ui/react"
 import { useState } from "react"
+import Fade from 'react-reveal/Fade';
 
 import LandingMap from "../components/LandingMap"
 
@@ -21,27 +22,31 @@ export default function LandingPage() {
     setSelectPlace(e.target.value)
   }
 
-  if (loading) return <p>Loading...</p>
+  if (loading) return <Spinner size="xl" thickness="4px" speed="0.65s"/>
   if (error) return <p>Error :( </p>
 
   return (
     <div className="App">
       <Container maxW="container.xl">
-        <Container>
-          <Select
-            variant="filled"
-            mb="10"
-            value={selectPlace}
-            onChange={handleChange}
-            placeholder="Selecciona una comunidad"
-            size="lg">
-            {data.places.map(place => (
-              <option key={place.id} value={place.place}>{place.place}</option>
-            ))}
-          </Select>
-        </Container>
+          <Fade up>
+            <Container maxW="container.sm">
+              <Select
+                variant="filled"
+                mb="10"
+                value={selectPlace}
+                onChange={handleChange}
+                placeholder="Selecciona una comunidad"
+                size="lg">
+                {data.places.map(place => (
+                  <option key={place.id} value={place.place}>{place.place}</option>
+                ))}
+              </Select>
+            </Container>
 
-        <LandingMap />
+            <Container maxW="container.xl">
+              <LandingMap />
+            </Container>
+          </Fade>
 
       </Container>
     </div>
