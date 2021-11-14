@@ -6,7 +6,7 @@ import Fade from 'react-reveal/Fade';
 import { BsFillBrightnessHighFill, BsFillMoonFill } from "react-icons/bs";
 import { MdLogin } from 'react-icons/md';
 
-const appName = "TravellingAV"
+const APP_NAME = "TravellingAV"
 
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode()
@@ -17,7 +17,7 @@ export default function Header() {
           <Link to="/">
             <Text fontSize="2xl" color="blue.600">
               <Fade top cascade>
-                {appName}
+                {APP_NAME}
               </Fade>
             </Text>
           </Link>

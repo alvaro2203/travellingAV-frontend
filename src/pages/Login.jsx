@@ -1,9 +1,10 @@
 import { Button, IconButton } from "@chakra-ui/button";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputLeftElement, InputRightElement } from "@chakra-ui/input";
-import { Box, Container, Heading, Link, Text } from "@chakra-ui/layout";
+import { Box, Container, Heading, Text } from "@chakra-ui/layout";
 import { useState } from "react";
 import Fade from 'react-reveal/Fade';
+import { Link } from 'react-router-dom'
 
 //icons
 import { MdAlternateEmail, MdLockOutline } from "react-icons/md";
@@ -18,7 +19,7 @@ export default function Login() {
             <Container textAlign="center" boxShadow="lg" p={4} mt={10}>
                 <Box >
                     <Heading>Bienvenido a TravellingAV</Heading>
-                    <Text>Inicia sesión o <Link color="blue.500">regístrate</Link> </Text>
+                    <Text><Link to="/login">Inicia sesión</Link> o <Link to="/register" style={{color: "#00AFFF"}}>Regístrate</Link> </Text>
                 </Box>
 
                 <Box my={8}>
@@ -58,7 +59,7 @@ export default function Login() {
                         </FormControl>
 
                         <Box textAlign="right" mt={4}>
-                            <Link color="blue.500">¿Olvidaste tu contraseña?</Link>
+                            <Link to="/changePassword" style={{color: "#00AFFF"}}>¿Olvidaste tu contraseña?</Link>
                         </Box>
 
                         <Button bg="blue.500" width="full" mt={4}>Iniciar Sesíon</Button>
