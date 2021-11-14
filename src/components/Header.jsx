@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Flex, Spacer, Box, IconButton, useColorMode, Text, Divider} from "@chakra-ui/react"
+import { Flex, Spacer, Box, IconButton, useColorMode, Text} from "@chakra-ui/react"
 import Fade from 'react-reveal/Fade';
 
 //icons
@@ -10,14 +10,13 @@ const appName = "TravellingAV"
 
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode()
-
   return (
     <div>
       <Flex p="10">
         <Box>
           <Link to="/">
             <Text fontSize="2xl" color="blue.600">
-              <Fade left cascade>
+              <Fade top cascade>
                 {appName}
               </Fade>
             </Text>
@@ -43,7 +42,8 @@ export default function Header() {
               variant="ghost"
               colorScheme="blue"
               size="md"
-              icon={<MdLogin />}>
+              icon={<MdLogin />}
+            >
             </IconButton>
           </Link>
         </Box>
