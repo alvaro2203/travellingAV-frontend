@@ -3,20 +3,20 @@ import { Flex, Spacer, Box, IconButton, useColorMode, Text, Divider} from "@chak
 import Fade from 'react-reveal/Fade';
 
 //icons
-import { FaRegLightbulb } from "react-icons/fa";
+import { BsFillBrightnessHighFill, BsFillMoonFill } from "react-icons/bs";
 import { MdLogin } from 'react-icons/md';
 
 const appName = "TravellingAV"
 
 export default function Header() {
-  const { toggleColorMode } = useColorMode()
+  const { colorMode, toggleColorMode } = useColorMode()
 
   return (
     <div>
       <Flex p="10">
         <Box>
           <Link to="/">
-            <Text fontSize="2xl" color="brand.400">
+            <Text fontSize="2xl" color="blue.600">
               <Fade left cascade>
                 {appName}
               </Fade>
@@ -29,19 +29,19 @@ export default function Header() {
         <Box mr="5">
           <IconButton 
             aria-label="cambiar tema de luz"
-            variant="solid"
-            colorScheme="brand"
+            variant="ghost"
+            colorScheme="blue"
             size="md" 
             onClick={toggleColorMode} 
-            icon={<FaRegLightbulb />}>
+            icon={colorMode === 'dark' ? <BsFillBrightnessHighFill /> : <BsFillMoonFill />}>
           </IconButton>
         </Box>
         <Box>
           <Link to="/login">
             <IconButton
               aria-label="Iniciar sesión"
-              variant="solid"
-              colorScheme="brand"
+              variant="ghost"
+              colorScheme="blue"
               size="md"
               icon={<MdLogin />}>
             </IconButton>
