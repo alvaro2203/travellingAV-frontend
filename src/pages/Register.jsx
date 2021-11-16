@@ -1,128 +1,223 @@
 import { Button, IconButton } from "@chakra-ui/button";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import { FormControl, FormLabel, FormErrorMessage } from "@chakra-ui/form-control";
 import { Input, InputGroup, InputLeftElement, InputRightElement } from "@chakra-ui/input";
 import { Box, Container, Grid, Heading, Text } from "@chakra-ui/layout";
+import { Spinner } from "@chakra-ui/spinner";
 import { useState } from "react";
 import Fade from 'react-reveal/Fade';
 import { Link } from 'react-router-dom'
+import { useMutation, gql } from '@apollo/client'
+import { Formik } from 'formik'
 
 //icons
 import { MdAlternateEmail, MdLockOutline } from "react-icons/md";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { FaUser, FaPencilAlt } from "react-icons/fa";
+import { FaUser } from "react-icons/fa";
+
+const REGISTER = gql`
+    mutation Register($username: String!, $email: String!, $password: String!) {
+        register(input: {username: $username, email: $email, password: $password}) {
+            jwt
+            user {
+                username
+                email
+            }
+        }
+  }
+`
 
 export default function Register() {
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
+    const [register, { data, loading, error }] = useMutation(REGISTER)
+
+    console.log(data)
+    if (loading) return (
+        <Container maxW="container.md" textAlign="center">
+            <Spinner size="xl" thickness="4px" speed="0.65s" />
+        </Container>
+    )
+
+    if (error) return (
+        <Box>
+            <Text>Error :( </Text>
+        </Box>
+    )
 
     return (
         <Fade left>
             <Container maxW="container.md" textAlign="center" boxShadow="lg" p={4} mt={4} >
                 <Box >
                     <Heading>Bienvenido a TravellingAV</Heading>
-                    <Text><Link to="/login" style={{color: "#00AFFF"}}>Inicia sesión</Link> o <Link to="/register">Regístrate</Link> </Text>
+                    <Text><Link to="/login" style={{ color: "#00AFFF" }}>Inicia sesión</Link> o <Link to="/register">Regístrate</Link> </Text>
                 </Box>
 
-                <Grid gridTemplateColumns="repeat(2, 1fr)" gap={6}>
-                    <Box my={8} w="100%">
+                <Formik
+                    initialValues={{
+                        username: '',
+                        email: '',
+                        password: '',
+                        rptPassword: ''
+                    }}
+                    validate={values => {
+                        const errors = {}
 
-                        <FormControl>
-                            <FormLabel>Nombre</FormLabel>
-                            <InputGroup>
-                                <InputLeftElement
-                                    pointerEvents="none"
-                                    children={<FaPencilAlt color="gray" />}
-                                />
-                                <Input type="email" placeholder="Introduce tu nombre" />
-                            </InputGroup>
+                        if (!values.username){
+                            errors.username = "Required"
+                        }
 
-                        </FormControl>
+                        if (!values.email) {
+                            errors.email = "Required"
+                        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+                            errors.email = 'Invalid email address';
+                        }
 
-                        <FormControl mt={4}>
-                            <FormLabel>Apellido</FormLabel>
-                            <InputGroup>
-                                <InputLeftElement
-                                    pointerEvents="none"
-                                    children={<FaPencilAlt color="gray" />}
-                                />
-                                <Input type="email" placeholder="Introduce tu apellido" />
-                            </InputGroup>
+                        if (!values.password){
+                            errors.password = "Required"
+                        }
 
-                        </FormControl>
+                        if (!values.rptPassword){
+                            errors.rptPassword = "Required"
+                        } else if(values.rptPassword !== values.password){
+                            errors.rptPassword = "La contraseña no coincide"
+                        }
 
-                        <FormControl mt={4}>
-                            <FormLabel>Nombre de usuario</FormLabel>
-                            <InputGroup>
-                                <InputLeftElement
-                                    pointerEvents="none"
-                                    children={<FaUser color="gray" />}
-                                />
-                                <Input type="email" placeholder="Introduce tu nombre de usuario" />
-                            </InputGroup>
+                        return errors;
+                    }}
+                    onSubmit={(values, { setSubmitting }) => {
+                        console.log(values)
+                        register({variables: { 
+                            username: values.username, 
+                            email: values.email, 
+                            password: values.password 
+                        }})
+                        setSubmitting(false)
+                    }}
+                >
+                    {({
+                        values,
+                        errors,
+                        touched,
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                        isSubmitting,
+                    }) => (
+                        <form onSubmit={handleSubmit}>
+                            <Grid gridTemplateColumns="repeat(2, 1fr)" gap={6}>
+                                <Box my={8} w="100%">
+                                    <FormControl mt={4}  isInvalid={errors.username && touched.username}>
+                                        <FormLabel>Nombre de usuario</FormLabel>
+                                        <InputGroup>
+                                            <InputLeftElement
+                                                pointerEvents="none"
+                                                children={<FaUser color="gray" />}
+                                            />
+                                            <Input 
+                                                type="text" 
+                                                placeholder="Introduce tu nombre de usuario"
+                                                name="username" 
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.username}
+                                            />
+                                        </InputGroup>
+                                        <FormErrorMessage>{errors.username && touched.username && errors.username}</FormErrorMessage>
+                                    </FormControl>
 
-                        </FormControl>
-                    </Box>
+                                    <FormControl mt={4} isInvalid={errors.email && touched.email}>
+                                        <FormLabel>Email</FormLabel>
+                                        <InputGroup>
+                                            <InputLeftElement
+                                                pointerEvents="none"
+                                                children={<MdAlternateEmail color="gray" />}
+                                            />
+                                            <Input 
+                                                type="email" 
+                                                placeholder="Introduce tu email"
+                                                name="email" 
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.email}
+                                            />
+                                        </InputGroup>
+                                        <FormErrorMessage>{errors.email && touched.email && errors.email}</FormErrorMessage>
+                                    </FormControl>
+                                </Box>
 
-                    <Box my={8} w="100%">
-                        <FormControl>
-                            <FormLabel>Email</FormLabel>
-                            <InputGroup>
-                                <InputLeftElement
-                                    pointerEvents="none"
-                                    children={<MdAlternateEmail color="gray" />}
-                                />
-                                <Input type="email" placeholder="Introduce tu email" />
-                            </InputGroup>
+                                <Box my={8} w="100%">
+                                    <FormControl mt={4} isInvalid={errors.password && touched.password}>
+                                        <FormLabel>Contraseña</FormLabel>
+                                        <InputGroup>
+                                            <InputLeftElement
+                                                pointerEvents="none"
+                                                children={<MdLockOutline color="gray" />}
+                                            />
+                                            <Input 
+                                                type={show ? "text" : "password"} 
+                                                placeholder="Introduce tu contraseña" 
+                                                name="password" 
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.password}
+                                            />
+                                            <InputRightElement>
+                                                <IconButton
+                                                    aria-label="Mostrar Contraseña"
+                                                    variant="ghost"
+                                                    colorScheme="blue"
+                                                    size="md"
+                                                    onClick={handleClick}
+                                                    icon={show ? <AiFillEyeInvisible /> : <AiFillEye />}
+                                                />
+                                            </InputRightElement>
+                                        </InputGroup>
+                                        <FormErrorMessage>{errors.password && touched.password && errors.password}</FormErrorMessage>
+                                    </FormControl>
 
-                        </FormControl>
+                                    <FormControl mt={4} isInvalid={errors.rptPassword && touched.rptPassword}>
+                                        <FormLabel>Repite la contraseña</FormLabel>
+                                        <InputGroup>
+                                            <InputLeftElement
+                                                pointerEvents="none"
+                                                children={<MdLockOutline color="gray" />}
+                                            />
+                                            <Input 
+                                                type={show ? "text" : "password"} 
+                                                placeholder="Introduce tu contraseña"
+                                                name="rptPassword" 
+                                                onChange={handleChange}
+                                                onBlur={handleBlur}
+                                                value={values.rptPassword}
+                                            />
+                                            <InputRightElement>
+                                                <IconButton
+                                                    aria-label="Mostrar Contraseña"
+                                                    variant="ghost"
+                                                    colorScheme="blue"
+                                                    size="md"
+                                                    onClick={handleClick}
+                                                    icon={show ? <AiFillEyeInvisible /> : <AiFillEye />}
+                                                />
+                                            </InputRightElement>
+                                        </InputGroup>
+                                        <FormErrorMessage>{errors.rptPassword && touched.rptPassword && errors.rptPassword}</FormErrorMessage>
+                                    </FormControl>
+                                </Box>
+                            </Grid>
 
-                        <FormControl mt={4}>
-                            <FormLabel>Contraseña</FormLabel>
-                            <InputGroup>
-                                <InputLeftElement
-                                    pointerEvents="none"
-                                    children={<MdLockOutline color="gray" />}
-                                />
-                                <Input type={show ? "text" : "password"} placeholder="Introduce tu contraseña" />
-                                <InputRightElement>
-                                    <IconButton
-                                        aria-label="Mostrar Contraseña"
-                                        variant="ghost"
-                                        colorScheme="blue"
-                                        size="md"
-                                        onClick={handleClick}
-                                        icon={show ? <AiFillEyeInvisible /> : <AiFillEye />}
-                                    />
-                                </InputRightElement>
-                            </InputGroup>
-
-                        </FormControl>
-
-                        <FormControl mt={4}>
-                            <FormLabel>Repite la contraseña</FormLabel>
-                            <InputGroup>
-                                <InputLeftElement
-                                    pointerEvents="none"
-                                    children={<MdLockOutline color="gray" />}
-                                />
-                                <Input type={show ? "text" : "password"} placeholder="Introduce tu contraseña" />
-                                <InputRightElement>
-                                    <IconButton
-                                        aria-label="Mostrar Contraseña"
-                                        variant="ghost"
-                                        colorScheme="blue"
-                                        size="md"
-                                        onClick={handleClick}
-                                        icon={show ? <AiFillEyeInvisible /> : <AiFillEye />}
-                                    />
-                                </InputRightElement>
-                            </InputGroup>
-
-                        </FormControl>
-                    </Box>
-
-                </Grid>
-                <Button bg="blue.500" width="full" mt={4}>Registrase</Button>
+                            <Button 
+                                bg="blue.500" 
+                                width="full" 
+                                mt={4}
+                                type="submit"
+                                disabled={isSubmitting}
+                            >
+                                Registrarse
+                            </Button>
+                        </form>
+                    )}
+                </Formik>
             </Container>
         </Fade>
     )

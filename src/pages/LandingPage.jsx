@@ -18,9 +18,7 @@ export default function LandingPage() {
   const { loading, error, data } = useQuery(PLACES);
   const [selectPlace, setSelectPlace] = useState("Madrid");
 
-  const handleChange = (e) => {
-    setSelectPlace(e.target.value)
-  }
+  const handleChange = (e) => setSelectPlace(e.target.value)
 
   if (loading) return <Spinner size="xl" thickness="4px" speed="0.65s"/>
   if (error) return <p>Error :( </p>
