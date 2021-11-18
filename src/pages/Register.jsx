@@ -31,7 +31,6 @@ export default function Register() {
     const handleClick = () => setShow(!show)
     const [register, { data, loading, error }] = useMutation(REGISTER)
 
-    console.log(data)
     if (loading) return (
         <Container maxW="container.md" textAlign="center">
             <Spinner size="xl" thickness="4px" speed="0.65s" />
@@ -85,7 +84,6 @@ export default function Register() {
                         return errors;
                     }}
                     onSubmit={(values, { setSubmitting }) => {
-                        console.log(values)
                         register({variables: { 
                             username: values.username, 
                             email: values.email, 
