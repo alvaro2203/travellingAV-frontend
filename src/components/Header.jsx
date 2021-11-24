@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom'
 import { Flex, Spacer, Box, IconButton, useColorMode, Text} from "@chakra-ui/react"
 import Fade from 'react-reveal/Fade';
+import { APP_NAME } from "../constans";
 
 //icons
 import { BsFillBrightnessHighFill, BsFillMoonFill } from "react-icons/bs";
 import { MdLogin } from 'react-icons/md';
-
-const APP_NAME = "TravellingAV"
+// import { FaUser } from "react-icons/fa";
 
 export default function Header() {
   const { colorMode, toggleColorMode } = useColorMode()
+  // const isAuth = localStorage.getItem('auth-token')
+
   return (
     <div>
       <Flex p="10">

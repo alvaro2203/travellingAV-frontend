@@ -8,6 +8,8 @@ import Fade from 'react-reveal/Fade';
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation, gql } from '@apollo/client'
 import { Formik } from 'formik'
+import { AUTH_TOKEN, APP_NAME } from "../constans";
+// import { client } from '../index'
 
 //icons
 import { MdAlternateEmail, MdLockOutline } from "react-icons/md";
@@ -25,7 +27,7 @@ export default function Login() {
     let navigate = useNavigate();
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
-    const [login, { data, loading, error }] = useMutation(LOGIN)
+    const [login, { loading, error }] = useMutation(LOGIN)
 
     if (loading) return (
         <Container maxW="container.md" textAlign="center">
@@ -43,7 +45,7 @@ export default function Login() {
         <Fade left>
             <Container textAlign="center" boxShadow="lg" p={4} mt={10}>
                 <Box >
-                    <Heading>Bienvenido a TravellingAV</Heading>
+                    <Heading>Bienvenido a {APP_NAME}</Heading>
                     <Text><Link to="/login">Inicia sesión</Link> o <Link to="/register" style={{ color: "#00AFFF" }}>Regístrate</Link> </Text>
                 </Box>
 
@@ -62,12 +64,13 @@ export default function Login() {
                                         password: values.password
                                     }
                                 }).then(data => {
-                                    console.log(data.data.login.jwt)
+                                    localStorage.setItem(AUTH_TOKEN, data.data.login.jwt)
+                                    // client.resetStore()
                                     navigate("/")
                                 })
                                 
                             } catch (e){
-                                alert(e)
+                                console.log(e)
                                 setSubmitting(false)
                             }
                             

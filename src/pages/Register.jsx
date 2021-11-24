@@ -5,9 +5,10 @@ import { Box, Container, Grid, Heading, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import { useState } from "react";
 import Fade from 'react-reveal/Fade';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useMutation, gql } from '@apollo/client'
 import { Formik } from 'formik'
+import { APP_NAME, AUTH_TOKEN } from "../constans";
 
 //icons
 import { MdAlternateEmail, MdLockOutline } from "react-icons/md";
@@ -27,9 +28,10 @@ const REGISTER = gql`
 `
 
 export default function Register() {
+    let navigate = useNavigate();
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
-    const [register, { data, loading, error }] = useMutation(REGISTER)
+    const [register, { loading, error }] = useMutation(REGISTER)
 
     if (loading) return (
         <Container maxW="container.md" textAlign="center">
@@ -47,7 +49,7 @@ export default function Register() {
         <Fade left>
             <Container maxW="container.md" textAlign="center" boxShadow="lg" p={4} mt={4} >
                 <Box >
-                    <Heading>Bienvenido a TravellingAV</Heading>
+                    <Heading>Bienvenido a {APP_NAME}</Heading>
                     <Text><Link to="/login" style={{ color: "#00AFFF" }}>Inicia sesión</Link> o <Link to="/register">Regístrate</Link> </Text>
                 </Box>
 
@@ -83,13 +85,21 @@ export default function Register() {
 
                         return errors;
                     }}
-                    onSubmit={(values, { setSubmitting }) => {
-                        register({variables: { 
+                    onSubmit={async (values, { setSubmitting }) => {
+                        setSubmitting(true)
+                        try {
+                            await register({variables: { 
                             username: values.username, 
                             email: values.email, 
                             password: values.password 
-                        }})
-                        setSubmitting(false)
+                        }}).then(data => {
+                            localStorage.setItem(AUTH_TOKEN, data.data.register.jwt)
+                            navigate("/");
+                        })
+                        } catch (e) {
+                            console.log(e)
+                            setSubmitting(false)
+                        }
                     }}
                 >
                     {({
