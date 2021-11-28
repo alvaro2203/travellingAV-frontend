@@ -14,6 +14,7 @@ import { APP_NAME, AUTH_TOKEN } from "../constans";
 import { MdAlternateEmail, MdLockOutline } from "react-icons/md";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { FaUser } from "react-icons/fa";
+import { client } from "..";
 
 const REGISTER = gql`
     mutation Register($username: String!, $email: String!, $password: String!) {
@@ -94,6 +95,7 @@ export default function Register() {
                             password: values.password 
                         }}).then(data => {
                             localStorage.setItem(AUTH_TOKEN, data.data.register.jwt)
+                            client.resetStore()
                             navigate("/");
                         })
                         } catch (e) {

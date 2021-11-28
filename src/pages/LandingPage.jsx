@@ -2,8 +2,9 @@ import { useQuery, gql } from '@apollo/client'
 import { Container, Select, Spinner, Box, Text } from "@chakra-ui/react"
 import { useState } from "react"
 import Fade from 'react-reveal/Fade';
-
 import LandingMap from "../components/LandingMap"
+import Header from "../components/Header"
+import { Authentication } from '../utils/authentication';
 
 const PLACES = gql`
   query getPlaces {
@@ -14,7 +15,7 @@ const PLACES = gql`
 `
 
 export default function LandingPage() {
-
+  Authentication()
   const { loading, error, data } = useQuery(PLACES);
   const [selectPlace, setSelectPlace] = useState("Madrid");
 
@@ -33,8 +34,9 @@ export default function LandingPage() {
   )
 
   return (
-    <div className="App">
-      <Container maxW="container.xl">
+    <div>
+      <Header />
+      {/* <Container maxW="container.xl">
         <Fade up>
           <Container maxW="container.sm">
             <Select
@@ -44,8 +46,8 @@ export default function LandingPage() {
               onChange={handleChange}
               placeholder="Selecciona una comunidad"
               size="lg">
-              {data.places.map(place => (
-                <option key={place.id} value={place.place}>{place.place}</option>
+              {data.places.map((place, index) => (
+                  <option key={index} value={place.place}>{place.place}</option>
               ))}
             </Select>
           </Container>
@@ -55,7 +57,7 @@ export default function LandingPage() {
           </Container>
         </Fade>
 
-      </Container>
+      </Container> */}
     </div>
   );
 }

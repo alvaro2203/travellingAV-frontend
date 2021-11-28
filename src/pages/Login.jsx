@@ -9,7 +9,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useMutation, gql } from '@apollo/client'
 import { Formik } from 'formik'
 import { AUTH_TOKEN, APP_NAME } from "../constans";
-// import { client } from '../index'
+import { client } from '../index'
 
 //icons
 import { MdAlternateEmail, MdLockOutline } from "react-icons/md";
@@ -46,7 +46,7 @@ export default function Login() {
             <Container textAlign="center" boxShadow="lg" p={4} mt={10}>
                 <Box >
                     <Heading>Bienvenido a {APP_NAME}</Heading>
-                    <Text><Link to="/login">Inicia sesión</Link> o <Link to="/register" style={{ color: "#00AFFF" }}>Regístrate</Link> </Text>
+                    <Text>Inicia sesión o <Link to="/register" style={{ color: "#00AFFF" }}>Regístrate</Link> </Text>
                 </Box>
 
                 <Box my={8}>
@@ -64,9 +64,11 @@ export default function Login() {
                                         password: values.password
                                     }
                                 }).then(data => {
-                                    localStorage.setItem(AUTH_TOKEN, data.data.login.jwt)
-                                    // client.resetStore()
-                                    navigate("/")
+                                    if (data) {
+                                        localStorage.setItem(AUTH_TOKEN, data.data.login.jwt)
+                                        client.resetStore()
+                                        navigate("/")
+                                    }
                                 })
                                 
                             } catch (e){
