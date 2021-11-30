@@ -8,7 +8,7 @@ import Fade from 'react-reveal/Fade';
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation, gql } from '@apollo/client'
 import { Formik } from 'formik'
-import { APP_NAME, AUTH_TOKEN } from "../constans";
+import { APP_NAME, AUTH_TOKEN } from "../utils/constans";
 
 //icons
 import { MdAlternateEmail, MdLockOutline } from "react-icons/md";

@@ -6,7 +6,7 @@ import { ChakraProvider } from "@chakra-ui/react"
 import './index.css';
 import App from './App';
 import { theme } from './styles/theme';
-import { AUTH_TOKEN } from './constans';
+import { AUTH_TOKEN } from './utils/constans';
 import { setContext } from '@apollo/client/link/context';
 
 //apollo client

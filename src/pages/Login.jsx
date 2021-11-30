@@ -8,7 +8,7 @@ import Fade from 'react-reveal/Fade';
 import { Link, useNavigate } from 'react-router-dom'
 import { useMutation, gql } from '@apollo/client'
 import { Formik } from 'formik'
-import { AUTH_TOKEN, APP_NAME } from "../constans";
+import { AUTH_TOKEN, APP_NAME } from "../utils/constans";
 import { client } from '../index'
 
 //icons

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { AUTH_TOKEN } from "../constans";
+import { AUTH_TOKEN } from "./constans";
 
 export const Authentication = () => {
     let navigate = useNavigate()

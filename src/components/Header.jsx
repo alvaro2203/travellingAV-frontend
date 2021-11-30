@@ -1,8 +1,8 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { Flex, Box, useColorMode, Text, Button, Stack, Menu, MenuButton, Avatar, MenuList, Center, MenuDivider, MenuItem } from "@chakra-ui/react"
 import Fade from 'react-reveal/Fade';
-import { APP_NAME, AUTH_TOKEN } from "../constans";
-import IsAuth from '../hooks/isAuth';
+import { APP_NAME, AUTH_TOKEN } from "../utils/constans";
+import IsAuth from '../graphql/hooks/useAuth';
 import { client } from '../index'
 
 //icons
@@ -78,7 +78,7 @@ export default function Header() {
                 <br />
                 <MenuDivider />
                 <MenuItem>Mi Perfil</MenuItem>
-                <MenuItem onClick={logOut}>Logout</MenuItem>
+                <MenuItem onClick={logOut}>Cerrar Sesión</MenuItem>
               </MenuList>
             </Menu>
 
