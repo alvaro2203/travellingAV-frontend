@@ -1,11 +1,13 @@
 import { useQuery, gql } from '@apollo/client'
-import { Container, Spinner, Box, Text, Flex, Stack, Button, Heading, Image, Grid, Center, Avatar } from "@chakra-ui/react"
+import { Container, Spinner, Box, Text, Flex, Stack, Button, Heading, Image, Grid, Center, Avatar, Badge } from "@chakra-ui/react"
 import Fade from 'react-reveal/Fade';
 import LandingMap from "../components/LandingMap"
 import Header from "../components/Header"
+import Footer from "../components/Footer"
 import { Authentication } from '../utils/authentication';
 import UseHouseholds from '../graphql/hooks/useHouseholds'
 import { APP_NAME } from '../utils/constans'
+import { StarIcon } from '@chakra-ui/icons';
 
 const GET_PLACES = gql`
   query getPlaces {
@@ -31,8 +33,6 @@ export default function LandingPage() {
       <Text>Error :( </Text>
     </Box>
   )
-
-  console.log(getHouseholds.userLocations)
 
   return (
     <div>
@@ -127,68 +127,65 @@ export default function LandingPage() {
       </Container>
 
       <Container maxW="container.xl">
-        <Grid templateColumns='repeat(2, 1fr)' gap={10}>
-          {getHouseholds.userLocations.map(household => (
-            <Center py={6}>
-              <Box
-                maxW={'445px'}
-                w={'full'}
-                boxShadow={'2xl'}
-                rounded={'md'}
-                p={6}
-                overflow={'hidden'}
-                >
-                <Box
-                  h={'290px'}
-                  bg={'gray.100'}
-                  mt={-6}
-                  mx={-6}
-                  mb={6}
-                  pos={'relative'}
+        <Grid templateColumns='repeat(3, 1fr)' gap={6}>
+          {getHouseholds.userHouseholds.map(userHousehold => (
+            <Center>
+              <Box maxW="sm" borderRadius="lg" overflow="hidden" boxShadow="dark-lg" mb="14">
+                <Image
+                  src="https://media.istockphoto.com/photos/close-up-of-small-blue-gray-mobile-home-with-a-front-and-side-porch-picture-id1297687835?b=1&k=20&m=1297687835&s=170667a&w=0&h=Kj4yvWxQxYo_fc9801IJZrHCAXa06LNsiRLjovVfoQQ="
+                />
+
+                <Box p="6">
+                  <Box display="flex" alignItems="baseline">
+                    <Badge borderRadius="full" px="2" colorScheme="teal">
+                      New
+                    </Badge>
+                    <Box
+                      color="gray.500"
+                      fontWeight="semibold"
+                      letterSpacing="wide"
+                      fontSize="xs"
+                      textTransform="uppercase"
+                      ml="2"
+                    >
+                      {userHousehold.household.bedrooms} habitaciones &bull; {userHousehold.household.toilets} baños &bull; {userHousehold.household.guests} huéspedes
+                    </Box>
+                  </Box>
+
+                  <Box
+                    mt="1"
+                    fontWeight="semibold"
+                    as="h4"
+                    lineHeight="tight"
+                    isTruncated
                   >
-                  <Image
-                    src={
-                      'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
-                    }
-                    layout={'fill'}
-                  />
-                </Box>
-                <Stack>
-                  <Text
-                    color={'green.500'}
-                    textTransform={'uppercase'}
-                    fontWeight={800}
-                    fontSize={'sm'}
-                    letterSpacing={1.1}>
-                    Blog
-                  </Text>
-                  <Heading
-                    fontSize={'2xl'}
-                    fontFamily={'body'}>
-                    {household.location.household.location.street}
-                  </Heading>
-                  <Text color={'gray.500'}>
-                    Ubicación: {household.location.household.location.place.place}
-                  </Text>
-                  <Text color={'gray.500'}>
-                    Precio: {household.location.household.price}€
-                  </Text>
-                </Stack>
-                <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-                  <Avatar
-                    src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
-                    alt={'Author'}
-                  />
-                  <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-                    <Text fontWeight={600}>{household.users_permissions_user.email}</Text>
-                    <Text color={'gray.500'}>Feb 08, 2021 · 6min read</Text>
+                    {userHousehold.household.location.street}
+                  </Box>
+
+                  <Box>
+                    {userHousehold.household.price}€
+                    <Box as="span" color="gray.500" fontSize="sm">
+                      /semana
+                    </Box>
+                  </Box>
+                  <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
+                    <Avatar
+                      src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
+                      alt={'Author'}
+                    />
+                    <Stack direction={'column'} spacing={0} fontSize={'sm'}>
+                      <Text fontWeight={600}>{userHousehold.user.email}</Text>
+                      <Text color={'gray.500'}>{userHousehold.created_at}</Text>
+                    </Stack>
                   </Stack>
-                </Stack>
+                </Box>
               </Box>
             </Center>
           ))}
         </Grid>
       </Container>
+
+      <Footer />
     </div>
   );
 }

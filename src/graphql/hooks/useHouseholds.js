@@ -4,21 +4,17 @@ import { HOUSEHOLD_FRAGMENT } from "../fragments/household"
 
 const GET_HOUSEHOLDS = gql`
   query getHouseholds {
-    userLocations{
+    userHouseholds{
         id
-        users_permissions_user{
+        household{
+          ...HouseholdParts
+        }
+        user{
+            username
             email
         }
-        location{
-            household{
-                ...HouseholdParts
-            }
-            coordinate{
-                altitude
-                latitude
-            }
-        }
-    }
+        created_at
+      }
   }
   ${HOUSEHOLD_FRAGMENT}
 `

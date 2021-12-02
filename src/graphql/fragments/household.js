@@ -6,16 +6,12 @@ export const HOUSEHOLD_FRAGMENT = gql`
         price
         bedrooms
         toilets
-        squareMeters
+        guests
         location{
             street
             number
             floor
             letter
-            coordinate{
-                altitude
-                latitude
-            }
             place{
                 place
             }
