@@ -1,7 +1,6 @@
 import { useQuery, gql } from '@apollo/client'
 import { Container, Spinner, Box, Text, Flex, Stack, Button, Heading, Image, Grid, Center, Avatar, Badge } from "@chakra-ui/react"
 import Fade from 'react-reveal/Fade';
-import LandingMap from "../components/LandingMap"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import { Authentication } from '../utils/authentication';
@@ -9,26 +8,18 @@ import UseHouseholds from '../graphql/hooks/useHouseholds'
 import { APP_NAME } from '../utils/constans'
 import { StarIcon } from '@chakra-ui/icons';
 
-const GET_PLACES = gql`
-  query getPlaces {
-    places {
-      place
-    }
-  }
-`
 
 export default function LandingPage() {
   Authentication()
-  const { loading, error, data } = useQuery(GET_PLACES);
   const { loadingHousehold, errorHousehold, getHouseholds } = UseHouseholds();
 
-  if (loading || loadingHousehold) return (
+  if (loadingHousehold) return (
     <Container maxW="container.md" textAlign="center">
       <Spinner size="xl" thickness="4px" speed="0.65s" />
     </Container>
   )
 
-  if (error || errorHousehold) return (
+  if (errorHousehold) return (
     <Box>
       <Text>Error :( </Text>
     </Box>
