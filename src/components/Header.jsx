@@ -1,5 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom'
-import { Flex, Box, useColorMode, Text, Button, Stack, Menu, MenuButton, Avatar, MenuList, Center, MenuDivider, MenuItem } from "@chakra-ui/react"
+import {
+  Flex, Box, useColorMode, Text, Button, Stack, Menu, MenuButton, Avatar, MenuList, Center, MenuDivider, MenuItem, Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbSeparator,
+} from "@chakra-ui/react"
 import Fade from 'react-reveal/Fade';
 import { APP_NAME, AUTH_TOKEN } from "../utils/constans";
 import IsAuth from '../graphql/hooks/useAuth';
@@ -34,6 +39,29 @@ export default function Header() {
           </Link>
         </Box>
 
+        <Box
+          color="blue.600"
+          fontWeight="semibold"
+          letterSpacing="wide"
+          fontSize="xs"
+          textTransform="uppercase"
+        >
+          <Breadcrumb separator='-'>
+            <BreadcrumbItem>
+              <BreadcrumbLink as={Link} to="/">Alojamientos</BreadcrumbLink>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem>
+              <BreadcrumbLink as={Link} to="/">Comunidades</BreadcrumbLink>
+            </BreadcrumbItem>
+
+            <BreadcrumbItem isCurrentPage>
+              <BreadcrumbLink as={Link} to="/">Contáctanos</BreadcrumbLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        </Box>
+
+
         <Flex alignItems="center">
           <Stack direction="row" spacing={7}>
             <Button
@@ -55,7 +83,7 @@ export default function Header() {
                 minW={0}
               >
                 <Avatar
-                  bg="blue.500"
+                  bg="blue.600"
                   name={me.me.username}
                   size="sm"
                   src=""
@@ -65,7 +93,7 @@ export default function Header() {
                 <br />
                 <Center>
                   <Avatar
-                    bg="blue.500"
+                    bg="blue.600"
                     name={me.me.username}
                     size="xl"
                     src=""
@@ -78,6 +106,7 @@ export default function Header() {
                 <br />
                 <MenuDivider />
                 <MenuItem>Mi Perfil</MenuItem>
+                <MenuItem><Link to="/myHousehold">Ofrece tu alojamiento</Link></MenuItem>
                 <MenuItem onClick={logOut}>Cerrar Sesión</MenuItem>
               </MenuList>
             </Menu>
