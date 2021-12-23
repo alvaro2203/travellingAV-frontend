@@ -5,7 +5,7 @@ import { Box, Container, Heading, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import { useState } from "react";
 import Fade from 'react-reveal/Fade';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useMutation, gql } from '@apollo/client'
 import { Formik } from 'formik'
 import { AUTH_TOKEN, APP_NAME } from "../utils/constans";
@@ -24,7 +24,7 @@ const LOGIN = gql`
 `
 
 export default function Login() {
-    let navigate = useNavigate();
+    let navigate = useHistory();
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
     const [login, { loading, error }] = useMutation(LOGIN)
@@ -67,15 +67,15 @@ export default function Login() {
                                     if (data) {
                                         localStorage.setItem(AUTH_TOKEN, data.data.login.jwt)
                                         client.resetStore()
-                                        navigate("/")
+                                        navigate.push("/")
                                     }
                                 })
-                                
-                            } catch (e){
+
+                            } catch (e) {
                                 console.log(e)
                                 setSubmitting(false)
                             }
-                            
+
                         }}
                     >
                         {({

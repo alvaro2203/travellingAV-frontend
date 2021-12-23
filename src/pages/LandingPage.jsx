@@ -1,29 +1,33 @@
-import { useQuery, gql } from '@apollo/client'
-import { Container, Spinner, Box, Text, Flex, Stack, Button, Heading, Image, Grid, Center, Avatar, Badge } from "@chakra-ui/react"
+import { Container, Spinner, Box, Text, Flex, Stack, Button, Heading, Image, Grid } from "@chakra-ui/react"
 import Fade from 'react-reveal/Fade';
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import { Authentication } from '../utils/authentication';
-import UseHouseholds from '../graphql/hooks/useHouseholds'
+import UseHouseholds from '../graphql/hooks/households/useHouseholds'
 import { APP_NAME } from '../utils/constans'
 import { StarIcon } from '@chakra-ui/icons';
+import HouseholdCard from "../components/HouseholdCard";
 
 
 export default function LandingPage() {
-  Authentication()
-  const { loadingHousehold, errorHousehold, getHouseholds } = UseHouseholds();
 
-  if (loadingHousehold) return (
+  Authentication()
+
+  const { loadingHouseholds, errorHouseholds, getHouseholds, refetchHouseholds } = UseHouseholds();
+
+  if (loadingHouseholds) return (
     <Container maxW="container.md" textAlign="center">
       <Spinner size="xl" thickness="4px" speed="0.65s" />
     </Container>
   )
 
-  if (errorHousehold) return (
+  if (errorHouseholds) return (
     <Box>
       <Text>Error :( </Text>
     </Box>
   )
+  refetchHouseholds()
+  const households = getHouseholds.households
 
   return (
     <div>
@@ -119,59 +123,8 @@ export default function LandingPage() {
 
       <Container maxW="container.xl">
         <Grid templateColumns='repeat(3, 1fr)' gap={6}>
-          {getHouseholds.userHouseholds.map(userHousehold => (
-            <Center>
-              <Box maxW="sm" borderRadius="lg" overflow="hidden" boxShadow="dark-lg" mb="14">
-                <Image
-                  src="https://media.istockphoto.com/photos/close-up-of-small-blue-gray-mobile-home-with-a-front-and-side-porch-picture-id1297687835?b=1&k=20&m=1297687835&s=170667a&w=0&h=Kj4yvWxQxYo_fc9801IJZrHCAXa06LNsiRLjovVfoQQ="
-                />
-
-                <Box p="6">
-                  <Box display="flex" alignItems="baseline">
-                    <Badge borderRadius="full" px="2" colorScheme="teal">
-                      New
-                    </Badge>
-                    <Box
-                      color="gray.500"
-                      fontWeight="semibold"
-                      letterSpacing="wide"
-                      fontSize="xs"
-                      textTransform="uppercase"
-                      ml="2"
-                    >
-                      {userHousehold.household.bedrooms} habitaciones &bull; {userHousehold.household.toilets} baños &bull; {userHousehold.household.guests} huéspedes
-                    </Box>
-                  </Box>
-
-                  <Box
-                    mt="1"
-                    fontWeight="semibold"
-                    as="h4"
-                    lineHeight="tight"
-                    isTruncated
-                  >
-                    {userHousehold.household.location.street}
-                  </Box>
-
-                  <Box>
-                    {userHousehold.household.price}€
-                    <Box as="span" color="gray.500" fontSize="sm">
-                      /semana
-                    </Box>
-                  </Box>
-                  <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-                    <Avatar
-                      src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
-                      alt={'Author'}
-                    />
-                    <Stack direction={'column'} spacing={0} fontSize={'sm'}>
-                      <Text fontWeight={600}>{userHousehold.user.email}</Text>
-                      <Text color={'gray.500'}>{userHousehold.created_at}</Text>
-                    </Stack>
-                  </Stack>
-                </Box>
-              </Box>
-            </Center>
+          {households.map(household => (
+            <HouseholdCard key={household.id} props={household} />
           ))}
         </Grid>
       </Container>

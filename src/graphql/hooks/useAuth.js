@@ -3,16 +3,16 @@ import { useQuery } from "@apollo/client"
 import { IS_AUTH } from "../queries/isAuth"
 
 const IsAuth = () => {
-    const { data, loading } = useQuery(IS_AUTH);
+    const { data: dataMe, loading: loadingMe } = useQuery(IS_AUTH);
 
     const me = useMemo(() => {
-        return data;
-
-    }, [data])
+        if (!dataMe) return
+        return dataMe.me;
+    }, [dataMe])
 
     return {
         me,
-        loading
+        loadingMe,
     }
 }
 

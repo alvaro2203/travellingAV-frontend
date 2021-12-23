@@ -13,8 +13,15 @@ export const HOUSEHOLD_FRAGMENT = gql`
             floor
             letter
             place{
-                place
+                name
             }
         }
+        user{
+            username
+            email
+            telephone
+            avatar
+        }
+        created_at
     }
 `;

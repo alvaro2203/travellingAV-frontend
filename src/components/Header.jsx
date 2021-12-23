@@ -1,11 +1,9 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import {
   Flex, Box, useColorMode, Text, Button, Stack, Menu, MenuButton, Avatar, MenuList, Center, MenuDivider, MenuItem, Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
 } from "@chakra-ui/react"
-import Fade from 'react-reveal/Fade';
 import { APP_NAME, AUTH_TOKEN } from "../utils/constans";
 import IsAuth from '../graphql/hooks/useAuth';
 import { client } from '../index'
@@ -16,12 +14,12 @@ import { BsFillBrightnessHighFill, BsFillMoonFill } from "react-icons/bs";
 export default function Header() {
   const { me } = IsAuth();
   const { colorMode, toggleColorMode } = useColorMode()
-  let navigate = useNavigate();
+  let navigate = useHistory();
 
   const logOut = () => {
     localStorage.removeItem(AUTH_TOKEN)
     client.resetStore()
-    navigate("/login")
+    navigate.push("/login")
   }
 
   if (!me) return null
@@ -32,9 +30,7 @@ export default function Header() {
         <Box>
           <Link to="/">
             <Text fontSize="2xl" color="blue.600">
-              <Fade top cascade>
-                {APP_NAME}
-              </Fade>
+              {APP_NAME}
             </Text>
           </Link>
         </Box>
@@ -84,7 +80,7 @@ export default function Header() {
               >
                 <Avatar
                   bg="blue.600"
-                  name={me.me.username}
+                  name={me.username}
                   size="sm"
                   src=""
                 />
@@ -94,19 +90,19 @@ export default function Header() {
                 <Center>
                   <Avatar
                     bg="blue.600"
-                    name={me.me.username}
+                    name={me.username}
                     size="xl"
                     src=""
                   />
                 </Center>
                 <br />
                 <Center>
-                  <p>{me.me.username}</p>
+                  <p>{me.username}</p>
                 </Center>
                 <br />
                 <MenuDivider />
-                <MenuItem>Mi Perfil</MenuItem>
-                <MenuItem><Link to="/myHousehold">Ofrece tu alojamiento</Link></MenuItem>
+                <Link to={`/profile/${me.id}`}><MenuItem>Mi perfil</MenuItem></Link>
+                <Link to="/myHousehold"><MenuItem>Ofrece tu alojamiento</MenuItem></Link>
                 <MenuItem onClick={logOut}>Cerrar Sesión</MenuItem>
               </MenuList>
             </Menu>

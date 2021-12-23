@@ -4,7 +4,8 @@ import { useMemo } from 'react'
 const GET_PLACES = gql`
   query getPlaces {
     places {
-      place
+      id
+      name
     }
   }
 `
@@ -14,7 +15,6 @@ const UsePlaces = () => {
 
     const getPlaces = useMemo(() => {
         return data
-
     }, [data])
 
     return {

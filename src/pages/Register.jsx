@@ -5,7 +5,7 @@ import { Box, Container, Grid, Heading, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import { useState } from "react";
 import Fade from 'react-reveal/Fade';
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useMutation, gql } from '@apollo/client'
 import { Formik } from 'formik'
 import { APP_NAME, AUTH_TOKEN } from "../utils/constans";
@@ -29,7 +29,7 @@ const REGISTER = gql`
 `
 
 export default function Register() {
-    let navigate = useNavigate();
+    let navigate = useHistory();
     const [show, setShow] = useState(false)
     const handleClick = () => setShow(!show)
     const [register, { loading, error }] = useMutation(REGISTER)
@@ -64,23 +64,23 @@ export default function Register() {
                     validate={values => {
                         const errors = {}
 
-                        if (!values.username){
+                        if (!values.username) {
                             errors.username = "Required"
                         }
 
                         if (!values.email) {
                             errors.email = "Required"
-                        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+                        } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
                             errors.email = 'Invalid email address';
                         }
 
-                        if (!values.password){
+                        if (!values.password) {
                             errors.password = "Required"
                         }
 
-                        if (!values.rptPassword){
+                        if (!values.rptPassword) {
                             errors.rptPassword = "Required"
-                        } else if(values.rptPassword !== values.password){
+                        } else if (values.rptPassword !== values.password) {
                             errors.rptPassword = "La contraseña no coincide"
                         }
 
@@ -89,15 +89,17 @@ export default function Register() {
                     onSubmit={async (values, { setSubmitting }) => {
                         setSubmitting(true)
                         try {
-                            await register({variables: { 
-                            username: values.username, 
-                            email: values.email, 
-                            password: values.password 
-                        }}).then(data => {
-                            localStorage.setItem(AUTH_TOKEN, data.data.register.jwt)
-                            client.resetStore()
-                            navigate("/");
-                        })
+                            await register({
+                                variables: {
+                                    username: values.username,
+                                    email: values.email,
+                                    password: values.password
+                                }
+                            }).then(data => {
+                                localStorage.setItem(AUTH_TOKEN, data.data.register.jwt)
+                                client.resetStore()
+                                navigate.push("/");
+                            })
                         } catch (e) {
                             console.log(e)
                             setSubmitting(false)
@@ -116,23 +118,23 @@ export default function Register() {
                         <form onSubmit={handleSubmit}>
                             <Grid gridTemplateColumns="repeat(2, 1fr)" gap={6}>
                                 <Box my={8} w="100%">
-                                    <FormControl mt={4}  isInvalid={errors.username && touched.username}>
+                                    <FormControl mt={4} isInvalid={errors.username && touched.username}>
                                         <FormLabel>Nombre de usuario</FormLabel>
                                         <InputGroup>
                                             <InputLeftElement
                                                 pointerEvents="none"
                                                 children={<FaUser color="gray" />}
                                             />
-                                            <Input 
-                                                type="text" 
+                                            <Input
+                                                type="text"
                                                 placeholder="Introduce tu nombre de usuario"
-                                                name="username" 
+                                                name="username"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.username}
                                             />
                                         </InputGroup>
-                                        <FormErrorMessage>{errors.username && touched.username && errors.username}</FormErrorMessage>
+                                        <FormErrorMessage>{errors.username && touched.username}</FormErrorMessage>
                                     </FormControl>
 
                                     <FormControl mt={4} isInvalid={errors.email && touched.email}>
@@ -142,16 +144,16 @@ export default function Register() {
                                                 pointerEvents="none"
                                                 children={<MdAlternateEmail color="gray" />}
                                             />
-                                            <Input 
-                                                type="email" 
+                                            <Input
+                                                type="email"
                                                 placeholder="Introduce tu email"
-                                                name="email" 
+                                                name="email"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.email}
                                             />
                                         </InputGroup>
-                                        <FormErrorMessage>{errors.email && touched.email && errors.email}</FormErrorMessage>
+                                        <FormErrorMessage>{errors.email && touched.email}</FormErrorMessage>
                                     </FormControl>
                                 </Box>
 
@@ -163,10 +165,10 @@ export default function Register() {
                                                 pointerEvents="none"
                                                 children={<MdLockOutline color="gray" />}
                                             />
-                                            <Input 
-                                                type={show ? "text" : "password"} 
-                                                placeholder="Introduce tu contraseña" 
-                                                name="password" 
+                                            <Input
+                                                type={show ? "text" : "password"}
+                                                placeholder="Introduce tu contraseña"
+                                                name="password"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.password}
@@ -182,7 +184,7 @@ export default function Register() {
                                                 />
                                             </InputRightElement>
                                         </InputGroup>
-                                        <FormErrorMessage>{errors.password && touched.password && errors.password}</FormErrorMessage>
+                                        <FormErrorMessage>{errors.password && touched.password}</FormErrorMessage>
                                     </FormControl>
 
                                     <FormControl mt={4} isInvalid={errors.rptPassword && touched.rptPassword}>
@@ -192,10 +194,10 @@ export default function Register() {
                                                 pointerEvents="none"
                                                 children={<MdLockOutline color="gray" />}
                                             />
-                                            <Input 
-                                                type={show ? "text" : "password"} 
+                                            <Input
+                                                type={show ? "text" : "password"}
                                                 placeholder="Introduce tu contraseña"
-                                                name="rptPassword" 
+                                                name="rptPassword"
                                                 onChange={handleChange}
                                                 onBlur={handleBlur}
                                                 value={values.rptPassword}
@@ -211,14 +213,14 @@ export default function Register() {
                                                 />
                                             </InputRightElement>
                                         </InputGroup>
-                                        <FormErrorMessage>{errors.rptPassword && touched.rptPassword && errors.rptPassword}</FormErrorMessage>
+                                        <FormErrorMessage>{errors.rptPassword && touched.rptPassword}</FormErrorMessage>
                                     </FormControl>
                                 </Box>
                             </Grid>
 
-                            <Button 
-                                bg="blue.500" 
-                                width="full" 
+                            <Button
+                                bg="blue.500"
+                                width="full"
                                 mt={4}
                                 type="submit"
                                 disabled={isSubmitting}

@@ -1,26 +1,28 @@
-import { Container, Spinner, Box, Text, Flex, Stack, Button, Heading, Image, Grid, Center, Avatar, Badge, FormControl, FormLabel } from "@chakra-ui/react"
-import { APP_NAME } from '../utils/constans'
-import Header from "../components/Header"
-import Footer from "../components/Footer"
-import UsePlaces from "../graphql/hooks/usePlaces"
-import { useQuery, gql } from '@apollo/client'
+import {
+    Container,
+    Box,
+    Text,
+    Flex,
+    Stack,
+    Button,
+    Heading,
+    Image,
+    Tabs,
+    TabList,
+    TabPanels,
+    Tab,
+    TabPanel,
+} from "@chakra-ui/react"
+import { APP_NAME } from '../../utils/constans'
+import Header from "../../components/Header"
+import Footer from "../../components/Footer"
+import DataHousehold from "../../components/DataHousehold"
+import { Authentication } from '../../utils/authentication';
+import MyHouseholds from "../../components/MyHouseholds"
 
-const GET_PLACES = gql`
-  query getPlaces {
-    places {
-      place
-    }
-  }
-`
+export default function ProfileHousehold() {
+    Authentication()
 
-export default function Myhousehold() {
-    // const { loading, error, getPlaces } = UsePlaces();
-    const { loading, error, data } = useQuery(GET_PLACES)
-    // getPlaces.places.forEach(place => {
-    //     console.log(place)
-    // })
-
-    console.log(data)
     return (
         <div>
             <Header />
@@ -115,17 +117,22 @@ export default function Myhousehold() {
                 </Stack>
             </Container>
 
-            <Container mt="10">
-                <Heading>
-                    <Text>Introduce aquí los datos de tu vivienda</Text>
-                </Heading>
+            <Container maxW="container.xl">
+                <Tabs variant="enclosed" align="center">
+                    <TabList>
+                        <Tab>Ofrece tu alojamiento</Tab>
+                        <Tab>Mis alojamientos</Tab>
+                    </TabList>
 
-                <Box bg="gray.300">
-                    <Text>¿Donde se encuentra el alojamiento?</Text>
-                    <FormControl>
-                        <FormLabel></FormLabel>
-                    </FormControl>
-                </Box>
+                    <TabPanels>
+                        <TabPanel>
+                            <DataHousehold />
+                        </TabPanel>
+                        <TabPanel>
+                            <MyHouseholds />
+                        </TabPanel>
+                    </TabPanels>
+                </Tabs>
             </Container>
 
             <Footer />

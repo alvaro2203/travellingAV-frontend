@@ -1,5 +1,3 @@
-import { ReactNode } from 'react';
-
 import {
   Box,
   Container,
@@ -11,7 +9,7 @@ import {
 } from '@chakra-ui/react';
 import { APP_NAME } from '../utils/constans';
 
-export default function LargeWithLogoLeft() {
+export default function Footer() {
   return (
     <Box
       bg={useColorModeValue('gray.200', 'gray.900')}
@@ -24,7 +22,7 @@ export default function LargeWithLogoLeft() {
           spacing={8}>
           <Stack spacing={6}>
             <Box>
-                {APP_NAME}
+              {APP_NAME}
             </Box>
             <Text fontSize={'sm'}>
               © 2020 Chakra Templates. All rights reserved
