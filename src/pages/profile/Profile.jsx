@@ -1,4 +1,4 @@
-import { Box, Button, Center, Container, FormControl, FormLabel, Grid, Heading, Input, Spinner, Text, useToast, Editable, EditablePreview, EditableInput } from "@chakra-ui/react";
+import { Box, Button, Center, Container, FormControl, FormLabel, Grid, Heading, Input, Spinner, Text, useToast } from "@chakra-ui/react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer"
 import { Authentication } from "../../utils/authentication";

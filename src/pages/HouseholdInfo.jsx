@@ -1,15 +1,21 @@
 import Header from "../components/Header"
 import Footer from "../components/Footer"
-import { Avatar, Box, Container, Divider, Flex, Heading, ListItem, Spacer, Spinner, Stack, Text, UnorderedList } from "@chakra-ui/react"
+import { Avatar, Box, Button, Container, Divider, Flex, Heading, ListItem, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Spacer, Spinner, Stack, Text, UnorderedList, useDisclosure } from "@chakra-ui/react"
 import { useParams } from "react-router-dom"
 import UseHousehold from "../graphql/hooks/households/useHousehold"
 import Carousel from "../components/Carousel"
 import { Authentication } from "../utils/authentication"
+import useAuth from "../graphql/hooks/useAuth"
+import DataHousehold from "../components/DataHousehold"
 
 export default function Household() {
     Authentication()
+    const { me } = useAuth()
     const { householdId } = useParams()
     const { getHousehold, loadingHousehold, errorHousehold, refetchHousehold } = UseHousehold(householdId);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+
+    if (!me) return null
 
     if (loadingHousehold) return (
         <Container maxW="container.md" textAlign="center">
@@ -22,8 +28,8 @@ export default function Household() {
             <Text>Error :( </Text>
         </Box>
     )
-    refetchHousehold();
 
+    refetchHousehold();
     const householdProps = getHousehold.household
 
     return (
@@ -79,6 +85,32 @@ export default function Household() {
                         </UnorderedList>
                     </Box>
                 </Flex>
+
+                {householdProps.user.email === me.email
+                    ? <Box my="10" textAlign="center">
+                        <Button
+                            onClick={onOpen}
+                            bg="blue.600"
+                        >Editar</Button>
+                    </Box>
+                    : null}
+
+                <Modal isOpen={isOpen} onClose={onClose} size="xl">
+                    <ModalOverlay />
+                    <ModalContent>
+                        <ModalHeader>Edita la información de tu vivienda</ModalHeader>
+                        <ModalCloseButton />
+                        <ModalBody>
+                            infos
+                        </ModalBody>
+
+                        <ModalFooter>
+                            <Button bg="blue.600" mr={3} onClick={onClose}>
+                                Cerrar
+                            </Button>
+                        </ModalFooter>
+                    </ModalContent>
+                </Modal>
 
             </Container>
 
