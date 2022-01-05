@@ -13,6 +13,8 @@ import {
     Input,
     useColorMode,
     useToast,
+    Textarea,
+    GridItem,
 } from "@chakra-ui/react"
 import { Formik } from 'formik'
 import UsePlaces from "../graphql/hooks/usePlaces"
@@ -28,14 +30,15 @@ export default function DataHousehold() {
     const toast = useToast()
     const [addLocation, { loading: loadingLocation, error: errorLocation }] = useMutation(CREATE_LOCATION)
     const [addHousehold, { loading: loadingHousehold, error: errorHousehold }] = useMutation(CREATE_HOUSEHOLD)
-    // const [addUserHousehold, { loading: loadingUserHousehold, error: errorUserHousehold }] = useMutation(CREATE_USER_HOUSEHOLD)
 
     const initialValues = {
         comunidad: "",
+        ciudad: "",
         calle: "",
         numero: 0,
         piso: 0,
         letra: "",
+        descripcion: "",
         precio: 0,
         habitaciones: 0,
         baños: 0,
@@ -69,7 +72,7 @@ export default function DataHousehold() {
                 onSubmit={async (values, { setSubmitting }) => {
                     setSubmitting(true)
                     try {
-                        if (!values.calle || !values.comunidad || !values.numero ||
+                        if (!values.descripcion || !values.ciudad || !values.calle || !values.comunidad || !values.numero ||
                             !values.piso || !values.letra || !values.precio ||
                             !values.habitaciones || !values.baños || !values.huespedes) {
                             toast({
@@ -83,6 +86,7 @@ export default function DataHousehold() {
                         } else {
                             await addLocation({
                                 variables: {
+                                    city: values.ciudad,
                                     street: values.calle,
                                     number: values.numero,
                                     floor: values.piso,
@@ -92,6 +96,7 @@ export default function DataHousehold() {
                             }).then(async (data) => {
                                 await addHousehold({
                                     variables: {
+                                        description: values.descripcion,
                                         price: values.precio,
                                         bedrooms: values.habitaciones,
                                         toilets: values.baños,
@@ -99,13 +104,7 @@ export default function DataHousehold() {
                                         location: data.data.createLocation.location.id,
                                         user: me.id
                                     }
-                                }).then(async () => {
-                                    // await addUserHousehold({
-                                    //     variables: {
-                                    //         household: data.data.createHousehold.household.id,
-                                    //         user: me.me.id
-                                    //     }
-                                    // })
+                                }).then(() => {
                                     toast({
                                         title: "Vivienda añadida",
                                         description: "Se ha añadido tu vivienda correctamente",
@@ -141,79 +140,110 @@ export default function DataHousehold() {
                                 </Center>
                                 <FormControl mt={4}>
                                     <Center>
-                                        <Grid gridTemplateColumns="repeat(2, 1fr)" gap={1}>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
                                             <FormLabel textAlign="center">Comunidad: </FormLabel>
-                                            <Select
-                                                name="comunidad"
-                                                value={values.comunidad}
-                                                onChange={handleChange}
-                                                placeholder="Selecciona una comunidad"
-                                                size="sm"
-                                            >
-                                                {places.map(place => (
-                                                    <option key={place.id} value={place.id}>{place.name}</option>
-                                                ))}
-                                            </Select>
+                                            <GridItem colSpan={2}>
+                                                <Select
+                                                    name="comunidad"
+                                                    value={values.comunidad}
+                                                    onChange={handleChange}
+                                                    placeholder="Selecciona una comunidad"
+                                                    size="sm"
+                                                >
+                                                    {places.map(place => (
+                                                        <option key={place.id} value={place.id}>{place.name}</option>
+                                                    ))}
+                                                </Select>
+                                            </GridItem>
                                         </Grid>
                                     </Center>
                                 </FormControl>
 
                                 <FormControl mt={4}>
                                     <Center>
-                                        <Grid gridTemplateColumns="repeat(2, 1fr)" gap={1}>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
+                                            <FormLabel textAlign="center">Ciudad: </FormLabel>
+                                            <GridItem colSpan={2}>
+                                                <Input
+                                                    name="ciudad"
+                                                    value={values.ciudad}
+                                                    onChange={handleChange}
+                                                    size="sm"
+                                                    placeholder="Introduce la diudad de tu alojamiento"
+                                                />
+                                            </GridItem>
+                                        </Grid>
+                                    </Center>
+                                </FormControl>
+
+                                <FormControl mt={4}>
+                                    <Center>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
                                             <FormLabel textAlign="center">Calle: </FormLabel>
-                                            <Input
-                                                name="calle"
-                                                value={values.calle}
-                                                onChange={handleChange}
-                                                size="sm"
-                                                placeholder="Introduce la calle de tu alojamiento"
-                                            />
+                                            <GridItem colSpan={2}>
+                                                <Input
+                                                    name="calle"
+                                                    value={values.calle}
+                                                    onChange={handleChange}
+                                                    size="sm"
+                                                    placeholder="Introduce la calle de tu alojamiento"
+                                                />
+                                            </GridItem>
+
                                         </Grid>
                                     </Center>
                                 </FormControl>
 
                                 <FormControl mt={4}>
                                     <Center>
-                                        <Grid gridTemplateColumns="repeat(2, 1fr)" gap={1}>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
                                             <FormLabel textAlign="center">Número: </FormLabel>
-                                            <Input
-                                                size="sm"
-                                                name="numero"
-                                                value={values.numero}
-                                                onChange={handleChange}
-                                                type="number"
-                                            />
+                                            <GridItem colSpan={2}>
+                                                <Input
+                                                    size="sm"
+                                                    name="numero"
+                                                    value={values.numero}
+                                                    onChange={handleChange}
+                                                    type="number"
+                                                />
+                                            </GridItem>
+
                                         </Grid>
                                     </Center>
                                 </FormControl>
 
                                 <FormControl mt={4}>
                                     <Center>
-                                        <Grid gridTemplateColumns="repeat(2, 1fr)" gap={1}>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
                                             <FormLabel textAlign="center">Piso: </FormLabel>
-                                            <Input
-                                                size="sm"
-                                                name="piso"
-                                                value={values.piso}
-                                                onChange={handleChange}
-                                                type="number"
-                                            />
+                                            <GridItem colSpan={2}>
+                                                <Input
+                                                    size="sm"
+                                                    name="piso"
+                                                    value={values.piso}
+                                                    onChange={handleChange}
+                                                    type="number"
+                                                />
+                                            </GridItem>
+
                                         </Grid>
                                     </Center>
                                 </FormControl>
 
                                 <FormControl mt={4}>
                                     <Center>
-                                        <Grid gridTemplateColumns="repeat(2, 1fr)" gap={1}>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
                                             <FormLabel textAlign="center">Letra: </FormLabel>
-                                            <Input
-                                                name="letra"
-                                                value={values.letra}
-                                                onChange={handleChange}
-                                                size="sm"
-                                                placeholder="Introduce la letra de tu piso"
-                                            />
+                                            <GridItem colSpan={2}>
+                                                <Input
+                                                    name="letra"
+                                                    value={values.letra}
+                                                    onChange={handleChange}
+                                                    size="sm"
+                                                    placeholder="Introduce la letra de tu piso"
+                                                />
+                                            </GridItem>
+
                                         </Grid>
                                     </Center>
                                 </FormControl>
@@ -226,55 +256,82 @@ export default function DataHousehold() {
                                 p={6}
                             >
                                 <Center>
-                                    <Text>¿Cuáles son las característioas de tu vivienda?</Text>
+                                    <Text>¿Cuáles son las características de tu vivienda?</Text>
                                 </Center>
                                 <FormControl mt={4}>
                                     <Center>
-                                        <Grid gridTemplateColumns="repeat(2, 1fr)" gap={1}>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
+                                            <FormLabel textAlign="center">
+                                                Descripción:
+                                            </FormLabel>
+                                            <GridItem colSpan={2}>
+                                                <Textarea
+                                                    size="md"
+                                                    name="descripcion"
+                                                    value={values.descripcion}
+                                                    onChange={handleChange}
+                                                    placeholder="Introduce una breve descripción de tu vivienda"
+                                                />
+                                            </GridItem>
+
+                                        </Grid>
+                                    </Center>
+                                </FormControl>
+                                <FormControl mt={4}>
+                                    <Center>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
                                             <FormLabel textAlign="center">
                                                 Precio:
                                             </FormLabel>
-                                            <Input
-                                                size="sm"
-                                                name="precio"
-                                                value={values.precio}
-                                                onChange={handleChange}
-                                                type="number"
-                                            />
+                                            <GridItem colSpan={2}>
+                                                <Input
+                                                    size="sm"
+                                                    name="precio"
+                                                    value={values.precio}
+                                                    onChange={handleChange}
+                                                    type="number"
+                                                />
+                                            </GridItem>
                                         </Grid>
                                     </Center>
                                 </FormControl>
 
                                 <FormControl mt={4}>
                                     <Center>
-                                        <Grid gridTemplateColumns="repeat(2, 1fr)" gap={1}>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
                                             <FormLabel textAlign="center">
                                                 Habitaciones:
                                             </FormLabel>
-                                            <Input
-                                                size="sm"
-                                                name="habitaciones"
-                                                value={values.habitaciones}
-                                                onChange={handleChange}
-                                                type="number"
-                                            />
+                                            <GridItem colSpan={2}>
+                                                <Input
+                                                    size="sm"
+                                                    name="habitaciones"
+                                                    value={values.habitaciones}
+                                                    onChange={handleChange}
+                                                    type="number"
+                                                />
+                                            </GridItem>
+
                                         </Grid>
                                     </Center>
                                 </FormControl>
 
                                 <FormControl mt={4}>
                                     <Center>
-                                        <Grid gridTemplateColumns="repeat(2, 1fr)" gap={1}>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
                                             <FormLabel textAlign="center">
                                                 Baños:
                                             </FormLabel>
-                                            <Input
-                                                size="sm"
-                                                name="baños"
-                                                value={values.baños}
-                                                onChange={handleChange}
-                                                type="number"
-                                            />
+                                            <GridItem colSpan={2}>
+                                                <Input
+                                                    size="sm"
+                                                    name="baños"
+                                                    value={values.baños}
+                                                    onChange={handleChange}
+                                                    type="number"
+                                                />
+                                            </GridItem>
+
                                         </Grid>
                                     </Center>
 
@@ -282,17 +339,20 @@ export default function DataHousehold() {
 
                                 <FormControl mt={4}>
                                     <Center>
-                                        <Grid gridTemplateColumns="repeat(2, 1fr)" gap={1}>
+                                        <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
                                             <FormLabel textAlign="center">
                                                 Huéspedes:
                                             </FormLabel>
-                                            <Input
-                                                size="sm"
-                                                name="huespedes"
-                                                value={values.huespedes}
-                                                onChange={handleChange}
-                                                type="number"
-                                            />
+                                            <GridItem colSpan={2}>
+                                                <Input
+                                                    size="sm"
+                                                    name="huespedes"
+                                                    value={values.huespedes}
+                                                    onChange={handleChange}
+                                                    type="number"
+                                                />
+                                            </GridItem>
+
                                         </Grid>
                                     </Center>
                                 </FormControl>

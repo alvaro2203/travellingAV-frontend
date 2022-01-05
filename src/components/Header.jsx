@@ -3,17 +3,20 @@ import {
   Flex, Box, useColorMode, Text, Button, Stack, Menu, MenuButton, Avatar, MenuList, Center, MenuDivider, MenuItem, Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Badge,
 } from "@chakra-ui/react"
 import { APP_NAME, AUTH_TOKEN } from "../utils/constans";
-import IsAuth from '../graphql/hooks/useAuth';
+import useMe from '../graphql/hooks/useMe';
 import { client } from '../index'
+import { useState } from 'react';
 
 //icons
 import { BsFillBrightnessHighFill, BsFillMoonFill } from "react-icons/bs";
 
 export default function Header() {
-  const { me } = IsAuth();
+  const { meExtended: me } = useMe()
   const { colorMode, toggleColorMode } = useColorMode()
+  let isCompleted = false
   let navigate = useHistory();
 
   const logOut = () => {
@@ -23,6 +26,8 @@ export default function Header() {
   }
 
   if (!me) return null
+
+  if (me.name && me.surname && me.telephone) isCompleted = true
 
   return (
     <Box>
@@ -48,11 +53,11 @@ export default function Header() {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <BreadcrumbLink as={Link} to="/">Comunidades</BreadcrumbLink>
+              <BreadcrumbLink as={Link} to="/communities">Comunidades</BreadcrumbLink>
             </BreadcrumbItem>
 
             <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink as={Link} to="/">Contáctanos</BreadcrumbLink>
+              <BreadcrumbLink as={Link} to="/contact">Contáctanos</BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
         </Box>
@@ -101,7 +106,7 @@ export default function Header() {
                 </Center>
                 <br />
                 <MenuDivider />
-                <Link to={`/profile/${me.id}`}><MenuItem>Mi perfil</MenuItem></Link>
+                <Link to={`/profile/${me.id}`}><MenuItem>Mi perfil{!isCompleted ? <Badge ml={2} bg='#FF7800'>!</Badge> : null}</MenuItem></Link>
                 <Link to="/myHousehold"><MenuItem>Ofrece tu alojamiento</MenuItem></Link>
                 <MenuItem onClick={logOut}>Cerrar Sesión</MenuItem>
               </MenuList>

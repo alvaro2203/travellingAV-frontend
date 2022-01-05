@@ -1,19 +1,121 @@
-import { Container, Spinner, Box, Text, Flex, Stack, Button, Heading, Image, Grid } from "@chakra-ui/react"
-import Fade from 'react-reveal/Fade';
+import {
+  Container, Spinner, Box, Text, Grid, GridItem, Slider,
+  SliderTrack,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderMark,
+  Button,
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  useDisclosure,
+  Heading,
+  Radio,
+  Stack,
+  RadioGroup,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Tooltip,
+} from "@chakra-ui/react"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import { Authentication } from '../utils/authentication';
 import UseHouseholds from '../graphql/hooks/households/useHouseholds'
-import { APP_NAME } from '../utils/constans'
-import { StarIcon } from '@chakra-ui/icons';
 import HouseholdCard from "../components/HouseholdCard";
+import TextBeginning from "../components/TextBeginning";
+import { useRef, useState, useEffect } from "react";
 
+//icons
+import { IoMdSwitch, IoMdSearch } from "react-icons/io";
+import { VscDebugRestart } from "react-icons/vsc";
 
 export default function LandingPage() {
 
   Authentication()
-
   const { loadingHouseholds, errorHouseholds, getHouseholds, refetchHouseholds } = UseHouseholds();
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const btnRef = useRef()
+  const [inputSearch, setInputSearch] = useState("")
+  const [allData, setAllData] = useState([getHouseholds?.households])
+  const [priceValue, setPriceValue] = useState(0)
+  const [roomsValue, setRoomsValue] = useState(0)
+  const [guestsValue, setGuestsValue] = useState(0)
+  const [toiletsValue, setToiletsValue] = useState(0)
+  const [showTooltip, setShowTooltip] = useState(false)
+  const [orderPrice, setOrderPrice] = useState(0)
+
+  const handleSearch = (e) => {
+    setInputSearch(e.target.value)
+  }
+
+  const restartFilters = () => {
+    setAllData(getHouseholds?.households)
+    setInputSearch("")
+    setPriceValue(0)
+    setRoomsValue(0)
+    setGuestsValue(0)
+    setToiletsValue(0)
+  }
+
+  useEffect(() => {
+    const households = getHouseholds?.households
+    let results = []
+    results = households?.filter(h =>
+      h?.location?.city?.toLowerCase().includes(inputSearch.toLowerCase()) ||
+      h?.location?.place?.name?.toLowerCase().includes(inputSearch.toLowerCase()) ||
+      h?.location?.street?.toLowerCase().includes(inputSearch.toLowerCase()) ||
+      h?.user?.username?.toLowerCase().includes(inputSearch.toLowerCase())
+    )
+
+    if (priceValue !== 0) {
+      results = households?.filter(h => h.price <= priceValue)
+    }
+
+    if (roomsValue !== 0) {
+      results = results.filter(h => {
+        if (roomsValue != 3) {
+          return h.bedrooms == roomsValue
+        } else {
+          return h.bedrooms >= roomsValue
+        }
+      })
+    }
+
+    if (guestsValue !== 0) {
+      results = results.filter(h => {
+        if (guestsValue != 3) {
+          return h.guests == guestsValue
+        } else {
+          return h.guests >= guestsValue
+        }
+      })
+    }
+
+    if (toiletsValue !== 0) {
+      results = results.filter(h => {
+        if (toiletsValue != 3) {
+          return h.toilets == toiletsValue
+        } else {
+          return h.toilets >= toiletsValue
+        }
+      })
+    }
+
+    // if (orderPrice == 1) {
+    //   results?.sort((a, b) => {
+    //     return a?.price < b?.price
+    //   })
+    // } else if (orderPrice == 2) {
+    //   results.sort((a, b) => (a.price > b.price ? 1 : a.edad < b.edad ? -1 : 0))
+    // }
+
+    setAllData(results)
+  }, [inputSearch, getHouseholds?.households, guestsValue, priceValue, roomsValue, toiletsValue, orderPrice])
 
   if (loadingHouseholds) return (
     <Container maxW="container.md" textAlign="center">
@@ -26,106 +128,145 @@ export default function LandingPage() {
       <Text>Error :( </Text>
     </Box>
   )
+
   refetchHouseholds()
-  const households = getHouseholds.households
 
   return (
     <div>
       <Header />
 
-      <Container maxW={'7xl'}>
-        <Stack
-          align={'center'}
-          spacing={{ base: 8, md: 10 }}
-          py={{ base: 20, md: 28 }}
-          direction={{ base: 'column', md: 'row' }}>
-          <Stack flex={1} spacing={{ base: 5, md: 10 }}>
-            <Heading
-              lineHeight={1.1}
-              fontWeight={600}
-              fontSize={{ base: '3xl', sm: '4xl', lg: '6xl' }}>
-              <Text
-                as={'span'}
-                position={'relative'}
-                _after={{
-                  content: "''",
-                  width: 'full',
-                  height: '30%',
-                  position: 'absolute',
-                  bottom: 1,
-                  left: 0,
-                  bg: 'blue.300',
-                  zIndex: -1,
-                }}>
-                {APP_NAME}
-              </Text>
-              <br />
-              <Text as={'span'} color={'blue.300'}>
-                busca tu alojamiento
-              </Text>
-            </Heading>
-            <Text color={'gray.500'}>
-              Snippy is a rich coding snippets app that lets you create your own
-              code snippets, categorize them, and even sync them in the cloud so
-              you can use them anywhere. All that is free!
-            </Text>
-            <Stack
-              spacing={{ base: 4, sm: 6 }}
-              direction={{ base: 'column', sm: 'row' }}>
-              <Button
-                rounded={'full'}
-                size={'lg'}
-                fontWeight={'normal'}
-                px={6}
-                colorScheme={'red'}
-                bg={'blue.400'}
-                _hover={{ bg: 'blue.500' }}>
-                Get started
-              </Button>
-              <Button
-                rounded={'full'}
-                size={'lg'}
-                fontWeight={'normal'}
-                px={6}
-              >
-                How It Works
-              </Button>
-            </Stack>
-          </Stack>
-          <Flex
-            flex={1}
-            justify={'center'}
-            align={'center'}
-            position={'relative'}
-            w={'full'}>
-            <Box
-              position={'relative'}
-              height={'300px'}
-              rounded={'2xl'}
-              width={'full'}
-              overflow={'hidden'}
-              boxShadow="dark-lg"
-            >
-              <Image
-                alt={'Hero Image'}
-                fit={'cover'}
-                align={'center'}
-                w={'100%'}
-                h={'100%'}
-                src={
-                  'https://images.unsplash.com/photo-1499591934245-40b55745b905?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHJhdmVsbGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
-                }
-              />
-            </Box>
-          </Flex>
-        </Stack>
-      </Container>
+      <TextBeginning
+        title="busca tu alojamiento"
+        text="Snippy is a rich coding snippets app that lets you create your own code snippets, categorize them, and even sync them in the cloud so you can use them anywhere. All that is free!"
+      />
 
       <Container maxW="container.xl">
-        <Grid templateColumns='repeat(3, 1fr)' gap={6}>
-          {households.map(household => (
-            <HouseholdCard key={household.id} props={household} />
-          ))}
+        <Box my={6} p={3}>
+          <Grid
+            templateColumns={{ lg: 'repeat(8, 1fr)', base: 'repeat(4, 1fr)' }}
+            gap={6}>
+            <GridItem colSpan={{ lg: 6, base: 2 }}>
+              <InputGroup>
+                <InputLeftElement
+                  pointersevents="none"
+                  children={<IoMdSearch color='gray.300' />}
+                />
+                <Input
+                  placeholder="Busca por comunidad, ciudad, calle, nombre, etc"
+                  value={inputSearch}
+                  onChange={handleSearch}
+                  lefticon={<IoMdSearch />}
+                />
+              </InputGroup>
+            </GridItem>
+
+            <Button ref={btnRef} variant='outline' onClick={onOpen} leftIcon={<IoMdSwitch />}>
+              Filtros
+            </Button>
+
+            <Button variant='outline' onClick={restartFilters} leftIcon={<VscDebugRestart />}>
+              Reiniciar
+            </Button>
+          </Grid>
+
+          <Drawer
+            isOpen={isOpen}
+            placement="rigth"
+            onClose={onClose}
+            finalFocusRef={btnRef}
+          >
+            <DrawerOverlay />
+            <DrawerContent>
+              <DrawerCloseButton />
+              <DrawerHeader>Más filtros</DrawerHeader>
+              <DrawerBody>
+                <Text>Precio</Text>
+                <Slider
+                  aria-label='slider-ex-1'
+                  min={20}
+                  max={400}
+                  defaultValue={70}
+                  value={priceValue}
+                  onChange={setPriceValue}
+                  onMouseEnter={() => setShowTooltip(true)}
+                  onMouseLeave={() => setShowTooltip(false)}
+                >
+                  <SliderTrack>
+                    <SliderFilledTrack />
+                  </SliderTrack>
+                  <Tooltip
+                    hasArrow
+                    placement="top"
+                    isOpen={showTooltip}
+                    label={`${priceValue}€`}
+                  >
+                    <SliderThumb />
+                  </Tooltip>
+                </Slider>
+
+                <Text mt={5}>Habitaciones</Text>
+                <RadioGroup onChange={setRoomsValue} value={roomsValue}>
+                  <Stack direction='row'>
+                    <Radio value="1">1</Radio>
+                    <Radio value="2">2</Radio>
+                    <Radio value="3">3+</Radio>
+                  </Stack>
+                </RadioGroup>
+
+                <Text mt={5}>Huéspedes</Text>
+                <RadioGroup onChange={setGuestsValue} value={guestsValue}>
+                  <Stack direction='row'>
+                    <Radio value="1">1</Radio>
+                    <Radio value="2">2</Radio>
+                    <Radio value="3">3+</Radio>
+                  </Stack>
+                </RadioGroup>
+
+                <Text mt={5}>Baños</Text>
+                <RadioGroup onChange={setToiletsValue} value={toiletsValue}>
+                  <Stack direction='row'>
+                    <Radio value="1">1</Radio>
+                    <Radio value="2">2</Radio>
+                    <Radio value="3">3+</Radio>
+                  </Stack>
+                </RadioGroup>
+
+              </DrawerBody>
+              <DrawerHeader>Ordenar</DrawerHeader>
+              <DrawerBody>
+                <Text mt={5}>Precio</Text>
+                <RadioGroup onChange={setOrderPrice} value={orderPrice}>
+                  <Stack direction='row'>
+                    <Radio value="1">Mas bajo</Radio>
+                    <Radio value="2">Mas alto</Radio>
+                  </Stack>
+                </RadioGroup>
+                <Text mt={5}>Huéspedes</Text>
+                <RadioGroup onChange={setToiletsValue} value={toiletsValue}>
+                  <Stack direction='row'>
+                    <Radio value="1">Mas bajo</Radio>
+                    <Radio value="2">Mas alto</Radio>
+                  </Stack>
+                </RadioGroup>
+              </DrawerBody>
+              <DrawerFooter>
+                <Button variant='outline' mr={3} onClick={onClose}>
+                  Cerrar
+                </Button>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        </Box>
+
+        <Grid
+          templateColumns={{ lg: 'repeat(3, 1fr)', md: 'repeat(2, 1fr)', base: 'repeat(1, 1fr)' }}
+          gap={6}>
+          {allData?.length === 0
+            ? <Box mb="14"><Heading>No se han encontrado coincidencias</Heading></Box>
+            : allData?.map(household => (
+              <HouseholdCard key={household.id} props={household} />
+            ))
+          }
         </Grid>
       </Container>
 

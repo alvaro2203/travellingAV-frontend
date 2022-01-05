@@ -19,28 +19,43 @@ export default function MyHouseholds() {
         </Box>
     )
 
+    const households = getHouseholds?.households
+
+    let cont = 0
+    households.forEach(household => {
+        if (household?.user?.username === me?.username) {
+            cont++
+        }
+    })
+
     refetchHouseholds()
 
     return (
-        <div>
-            {getHouseholds.households.length === 0
-                ? <Text>Aún no tienes viviendas publicadas</Text>
+        <>
+            {cont === 0
+                ? <>
+                    <Center>
+                        <Heading m="10">
+                            <Text>Aún no tienes viviendas publicadas</Text>
+                        </Heading>
+                    </Center>
+                    <Text>¿A qué estás esperando?</Text>
+                </>
+
                 : <>
                     <Heading m="10">
                         <Center><Text>Estas son tus viviendas publicadas</Text></Center>
                     </Heading>
 
                     <Grid templateColumns='repeat(3, 1fr)' mt="16" gap={6} align="left">
-                        {getHouseholds.households.map(household => {
-                            if (household.user.username === me.username) {
-                                return (
-                                    <HouseholdCard key={household.id} props={household} />
-                                )
-                            }
-                        })}
+                        {households.map(household => (
+                            household.user.username === me.username
+                                ? <HouseholdCard key={household.id} props={household} />
+                                : null
+                        ))}
                     </Grid>
                 </>
             }
-        </div>
+        </>
     )
 }

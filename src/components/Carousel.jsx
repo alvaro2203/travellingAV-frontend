@@ -2,18 +2,14 @@ import {
     Box,
     IconButton,
     useBreakpointValue,
-    Stack,
-    Heading,
-    Text,
     Container,
 } from '@chakra-ui/react';
-// Here we have used react-icons package for the icons
-import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
-// And react-slick as our Carousel Lib
 import Slider from 'react-slick';
 import { useState } from 'react';
 
-// Settings for the slider
+//icons
+import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi';
+
 const settings = {
     dots: true,
     arrows: false,
@@ -27,17 +23,9 @@ const settings = {
 };
 
 export default function Carousel() {
-    // As we have used custom buttons, we need a reference variable to
-    // change the state
     const [slider, setSlider] = useState(null);
-
-    // These are the breakpoints which changes the position of the
-    // buttons as the screen size changes
     const top = useBreakpointValue({ base: '90%', md: '50%' });
     const side = useBreakpointValue({ base: '30%', md: '40px' });
-
-    // This list contains all the data for carousels
-    // This can be static or loaded from a server
     const cards = [
         {
             title: 'Design Projects 1',
@@ -112,7 +100,7 @@ export default function Carousel() {
                     {cards.map((card, index) => (
                         <Box
                             key={index}
-                            height={'6xl'}
+                            height={'2xl'}
                             position="relative"
                             backgroundPosition="center"
                             backgroundRepeat="no-repeat"

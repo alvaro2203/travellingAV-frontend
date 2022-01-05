@@ -26,19 +26,14 @@ const LOGIN = gql`
 export default function Login() {
     let navigate = useHistory();
     const [show, setShow] = useState(false)
+    const [notExists, setNotExists] = useState(false)
     const handleClick = () => setShow(!show)
-    const [login, { loading, error }] = useMutation(LOGIN)
+    const [login, { loading }] = useMutation(LOGIN)
 
     if (loading) return (
         <Container maxW="container.md" textAlign="center">
             <Spinner size="xl" thickness="4px" speed="0.65s" />
         </Container>
-    )
-
-    if (error) return (
-        <Box>
-            <Text>Error :( </Text>
-        </Box>
     )
 
     return (
@@ -72,7 +67,7 @@ export default function Login() {
                                 })
 
                             } catch (e) {
-                                console.log(e)
+                                setNotExists(true)
                                 setSubmitting(false)
                             }
 
@@ -135,14 +130,17 @@ export default function Login() {
                                 </FormControl>
 
                                 <Box textAlign="right" mt={4}>
-                                    <Link to="/changePassword" style={{ color: "#00AFFF" }}>¿Olvidaste tu contraseña?</Link>
+                                    <Link to="/rstPassword" style={{ color: "#00AFFF" }}>¿Olvidaste tu contraseña?</Link>
                                 </Box>
 
                                 <Button type="submit" bg="blue.500" width="full" mt={4} disabled={isSubmitting}>Iniciar Sesíon</Button>
                             </form>
                         )}
                     </Formik>
-
+                    {notExists
+                        ? <Text mt={4} style={{ color: "red" }}>El usuario o la contraseña son incorrectos</Text>
+                        : null
+                    }
                 </Box>
             </Container>
         </Fade>

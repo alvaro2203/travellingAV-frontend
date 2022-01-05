@@ -6,7 +6,6 @@ import UseHousehold from "../graphql/hooks/households/useHousehold"
 import Carousel from "../components/Carousel"
 import { Authentication } from "../utils/authentication"
 import useAuth from "../graphql/hooks/useAuth"
-import DataHousehold from "../components/DataHousehold"
 
 export default function Household() {
     Authentication()

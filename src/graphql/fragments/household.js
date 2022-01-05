@@ -7,7 +7,9 @@ export const HOUSEHOLD_FRAGMENT = gql`
         bedrooms
         toilets
         guests
+        description
         location{
+            city
             street
             number
             floor

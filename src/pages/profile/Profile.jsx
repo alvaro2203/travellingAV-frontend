@@ -6,11 +6,14 @@ import useMe from "../../graphql/hooks/useMe"
 import { Form, Formik } from "formik";
 import { UPDATE_USER } from "../../graphql/mutations/updateUser";
 import { useMutation } from "@apollo/client";
+import { ME_EXTENDED } from "../../graphql/queries/me"
 
 export default function Profile() {
   Authentication()
-  const { meExtended: me, refetch } = useMe();
-  const [updateUser, { loading, error }] = useMutation(UPDATE_USER)
+  const { meExtended: me } = useMe();
+  const [updateUser, { loading, error }] = useMutation(UPDATE_USER, {
+    refetchQueries: [{ query: ME_EXTENDED }]
+  })
   const toast = useToast()
 
   if (!me) return null
@@ -69,8 +72,6 @@ export default function Profile() {
       <Text>Error :( </Text>
     </Box>
   )
-
-  refetch()
 
   return (
     <div>
