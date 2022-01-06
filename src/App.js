@@ -5,10 +5,10 @@ import Login from './pages/Login'
 import ResetPassword from "./pages/ResetPassword";
 import Register from './pages/Register'
 import ProfileHousehold from './pages/profile/ProfileHousehold'
-import Household from "./pages/HouseholdInfoDos";
+import Household from "./pages/HouseholdInfo";
 import Profile from "./pages/profile/Profile";
 import Contact from "./components/Contact";
-import Communities from "./pages/Communities";
+import Favorites from "./pages/Favorites";
 
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
         <Route exact path="/profile/:profileId" component={Profile} />
         <Route exact path="/households/:householdId" component={Household} />
         <Route exact path="/contact" component={Contact} />
-        <Route exact path="/communities" component={Communities} />
+        <Route exact path="/favorites" component={Favorites} />
         <Redirect to="/" />
       </Switch>
     </div>

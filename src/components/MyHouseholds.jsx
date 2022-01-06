@@ -47,7 +47,12 @@ export default function MyHouseholds() {
                         <Center><Text>Estas son tus viviendas publicadas</Text></Center>
                     </Heading>
 
-                    <Grid templateColumns='repeat(3, 1fr)' mt="16" gap={6} align="left">
+                    <Grid
+                        templateColumns={{ lg: 'repeat(3, 1fr)', md: 'repeat(2, 1fr)', base: 'repeat(1, 1fr)' }}
+                        mt="16"
+                        gap={{ lg: 6, md: 3, base: 1 }}
+                        align="left"
+                    >
                         {households.map(household => (
                             household.user.username === me.username
                                 ? <HouseholdCard key={household.id} props={household} />

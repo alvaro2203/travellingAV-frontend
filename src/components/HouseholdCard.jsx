@@ -69,6 +69,7 @@ export default function HouseholdCard(props) {
                         <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
                             <Avatar
                                 src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
+                                //src={`https://travellingav.s3.eu-west-3.amazonaws.com/${householdProps?.user?.avatar}`}
                                 alt={'Author'}
                             />
                             <Stack direction={'column'} spacing={0} fontSize={'sm'}>

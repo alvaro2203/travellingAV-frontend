@@ -8,7 +8,6 @@ import {
 import { APP_NAME, AUTH_TOKEN } from "../utils/constans";
 import useMe from '../graphql/hooks/useMe';
 import { client } from '../index'
-import { useState } from 'react';
 
 //icons
 import { BsFillBrightnessHighFill, BsFillMoonFill } from "react-icons/bs";
@@ -53,7 +52,7 @@ export default function Header() {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <BreadcrumbLink as={Link} to="/communities">Comunidades</BreadcrumbLink>
+              <BreadcrumbLink as={Link} to="/favorites">Favoritos</BreadcrumbLink>
             </BreadcrumbItem>
 
             <BreadcrumbItem isCurrentPage>
@@ -87,7 +86,7 @@ export default function Header() {
                   bg="blue.600"
                   name={me.username}
                   size="sm"
-                  src=""
+                // src={`https://travellingav.s3.eu-west-3.amazonaws.com/${me.avatar}`}
                 />
               </MenuButton>
               <MenuList alignItems="center">
@@ -97,7 +96,7 @@ export default function Header() {
                     bg="blue.600"
                     name={me.username}
                     size="xl"
-                    src=""
+                  // src={`https://travellingav.s3.eu-west-3.amazonaws.com/${me.avatar}`}
                   />
                 </Center>
                 <br />

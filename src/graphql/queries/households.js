@@ -20,3 +20,39 @@ export const GET_HOUSEHOLD = gql`
     }
     ${HOUSEHOLD_FRAGMENT}
 `
+
+export const FAVORITE_HOUSEHOLDS = gql`
+    query favoriteHouseholds($user: String!){
+        favoriteHouseholds(
+            where:{
+                user:{
+                    username: $user
+                }
+            }
+        ){
+            household{
+                ...HouseholdParts
+            }
+        }
+    }
+    ${HOUSEHOLD_FRAGMENT}
+`
+
+export const FAVORITE_HOUSEHOLD = gql`
+    query favoriteHouseholds($user: ID!, $householdId: ID!){
+        favoriteHouseholds(
+            where:{
+                user:$user
+                household:$householdId
+            }
+        ){
+            id
+            user{
+                username
+            }
+            household{
+                price
+            }
+        }
+    }
+`

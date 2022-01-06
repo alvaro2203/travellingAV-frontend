@@ -22,31 +22,39 @@ const settings = {
     slidesToScroll: 1,
 };
 
-export default function Carousel() {
+export default function Carousel({ image1, image2, image3 }) {
     const [slider, setSlider] = useState(null);
     const top = useBreakpointValue({ base: '90%', md: '50%' });
     const side = useBreakpointValue({ base: '30%', md: '40px' });
+    let image1Url, image2Url, image3Url;
+
+    if (image1 === null) {
+        image1Url = 'https://media.istockphoto.com/photos/modern-living-room-interior-3d-render-picture-id1293762741?b=1&k=20&m=1293762741&s=170667a&w=0&h=2RI8SmBN4MrEZuTvdwRzaeB887x-dukFcQBpyQ-qwS4='
+    } else {
+        image1Url = `https://travellingav.s3.eu-west-3.amazonaws.com/${image1}`
+    }
+
+    if (image2 === null) {
+        image2Url = 'https://media.istockphoto.com/photos/modern-elegant-kitchen-stock-photo-picture-id1297586166?b=1&k=20&m=1297586166&s=170667a&w=0&h=Ka-3OYiTlbCiwCJhoXeTqRewh3DI4qfSh1B0baJMcCk='
+    } else {
+        image2Url = `https://travellingav.s3.eu-west-3.amazonaws.com/${image2}`
+    }
+
+    if (image3 === null) {
+        image3Url = 'https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmVkcm9vbXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
+    } else {
+        image3Url = `https://travellingav.s3.eu-west-3.amazonaws.com/${image3}`
+    }
+
     const cards = [
         {
-            title: 'Design Projects 1',
-            text:
-                "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-            image:
-                'https://media.istockphoto.com/photos/modern-living-room-interior-3d-render-picture-id1293762741?b=1&k=20&m=1293762741&s=170667a&w=0&h=2RI8SmBN4MrEZuTvdwRzaeB887x-dukFcQBpyQ-qwS4=',
+            image: image1Url,
         },
         {
-            title: 'Design Projects 2',
-            text:
-                "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-            image:
-                'https://media.istockphoto.com/photos/modern-elegant-kitchen-stock-photo-picture-id1297586166?b=1&k=20&m=1297586166&s=170667a&w=0&h=Ka-3OYiTlbCiwCJhoXeTqRewh3DI4qfSh1B0baJMcCk=',
+            image: image2Url,
         },
         {
-            title: 'Design Projects 3',
-            text:
-                "The project board is an exclusive resource for contract work. It's perfect for freelancers, agencies, and moonlighters.",
-            image:
-                'https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmVkcm9vbXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60',
+            image: image3Url,
         },
     ];
 
@@ -57,7 +65,6 @@ export default function Carousel() {
                 height={'600px'}
                 width={'full'}
                 overflow={'hidden'}>
-                {/* CSS files for react-slick */}
                 <link
                     rel="stylesheet"
                     type="text/css"
@@ -69,7 +76,6 @@ export default function Carousel() {
                     type="text/css"
                     href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css"
                 />
-                {/* Left Icon */}
                 <IconButton
                     aria-label="left-arrow"
                     variant="ghost"
@@ -82,7 +88,6 @@ export default function Carousel() {
                     color="black">
                     <BiLeftArrowAlt size="40px" />
                 </IconButton>
-                {/* Right Icon */}
                 <IconButton
                     aria-label="right-arrow"
                     variant="ghost"
@@ -95,7 +100,6 @@ export default function Carousel() {
                     color="black">
                     <BiRightArrowAlt size="40px" />
                 </IconButton>
-                {/* Slider */}
                 <Slider {...settings} ref={(slider) => setSlider(slider)}>
                     {cards.map((card, index) => (
                         <Box

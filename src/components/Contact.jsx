@@ -28,7 +28,7 @@ export default function Contact() {
     return (
         <>
             <Header />
-            <Container bg="#9DC4FB" maxW="full" mt={0} centerContent overflow="hidden">
+            <Container maxW="full" mt={0} centerContent overflow="hidden">
                 <Flex>
                     <Box
                         bg="#02054B"

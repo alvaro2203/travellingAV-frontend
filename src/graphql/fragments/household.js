@@ -8,6 +8,9 @@ export const HOUSEHOLD_FRAGMENT = gql`
         toilets
         guests
         description
+        image1
+        image2
+        image3
         location{
             city
             street

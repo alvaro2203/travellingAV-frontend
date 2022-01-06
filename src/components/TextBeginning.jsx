@@ -38,28 +38,6 @@ export default function TextBeginning({ title, text }) {
                         <Text color={'gray.500'}>
                             {text}
                         </Text>
-                        <Stack
-                            spacing={{ base: 4, sm: 6 }}
-                            direction={{ base: 'column', sm: 'row' }}>
-                            <Button
-                                rounded={'full'}
-                                size={'lg'}
-                                fontWeight={'normal'}
-                                px={6}
-                                colorScheme={'red'}
-                                bg={'blue.400'}
-                                _hover={{ bg: 'blue.500' }}>
-                                Get started
-                            </Button>
-                            <Button
-                                rounded={'full'}
-                                size={'lg'}
-                                fontWeight={'normal'}
-                                px={6}
-                            >
-                                How It Works
-                            </Button>
-                        </Stack>
                     </Stack>
                     <Flex
                         flex={1}

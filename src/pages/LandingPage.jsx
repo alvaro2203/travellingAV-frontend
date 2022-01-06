@@ -3,7 +3,6 @@ import {
   SliderTrack,
   SliderFilledTrack,
   SliderThumb,
-  SliderMark,
   Button,
   Drawer,
   DrawerBody,
@@ -42,12 +41,12 @@ export default function LandingPage() {
   const btnRef = useRef()
   const [inputSearch, setInputSearch] = useState("")
   const [allData, setAllData] = useState([getHouseholds?.households])
-  const [priceValue, setPriceValue] = useState(0)
-  const [roomsValue, setRoomsValue] = useState(0)
-  const [guestsValue, setGuestsValue] = useState(0)
-  const [toiletsValue, setToiletsValue] = useState(0)
+  const [priceValue, setPriceValue] = useState("0")
+  const [roomsValue, setRoomsValue] = useState("0")
+  const [guestsValue, setGuestsValue] = useState("0")
+  const [toiletsValue, setToiletsValue] = useState("0")
   const [showTooltip, setShowTooltip] = useState(false)
-  const [orderPrice, setOrderPrice] = useState(0)
+  const [order, setOrder] = useState("1")
 
   const handleSearch = (e) => {
     setInputSearch(e.target.value)
@@ -56,10 +55,11 @@ export default function LandingPage() {
   const restartFilters = () => {
     setAllData(getHouseholds?.households)
     setInputSearch("")
-    setPriceValue(0)
-    setRoomsValue(0)
-    setGuestsValue(0)
-    setToiletsValue(0)
+    setPriceValue("0")
+    setRoomsValue("0")
+    setGuestsValue("0")
+    setToiletsValue("0")
+    setOrder("1")
   }
 
   useEffect(() => {
@@ -72,13 +72,13 @@ export default function LandingPage() {
       h?.user?.username?.toLowerCase().includes(inputSearch.toLowerCase())
     )
 
-    if (priceValue !== 0) {
+    if (priceValue !== "0") {
       results = households?.filter(h => h.price <= priceValue)
     }
 
-    if (roomsValue !== 0) {
-      results = results.filter(h => {
-        if (roomsValue != 3) {
+    if (roomsValue !== "0") {
+      results = results?.filter(h => {
+        if (roomsValue !== "3") {
           return h.bedrooms == roomsValue
         } else {
           return h.bedrooms >= roomsValue
@@ -86,9 +86,9 @@ export default function LandingPage() {
       })
     }
 
-    if (guestsValue !== 0) {
-      results = results.filter(h => {
-        if (guestsValue != 3) {
+    if (guestsValue !== "0") {
+      results = results?.filter(h => {
+        if (guestsValue !== "3") {
           return h.guests == guestsValue
         } else {
           return h.guests >= guestsValue
@@ -96,9 +96,9 @@ export default function LandingPage() {
       })
     }
 
-    if (toiletsValue !== 0) {
-      results = results.filter(h => {
-        if (toiletsValue != 3) {
+    if (toiletsValue !== "0") {
+      results = results?.filter(h => {
+        if (toiletsValue !== "3") {
           return h.toilets == toiletsValue
         } else {
           return h.toilets >= toiletsValue
@@ -106,16 +106,19 @@ export default function LandingPage() {
       })
     }
 
-    // if (orderPrice == 1) {
-    //   results?.sort((a, b) => {
-    //     return a?.price < b?.price
-    //   })
-    // } else if (orderPrice == 2) {
-    //   results.sort((a, b) => (a.price > b.price ? 1 : a.edad < b.edad ? -1 : 0))
-    // }
+    //order
+    if (order === "1") {
+      results?.sort((a, b) => a.price > b.price ? 1 : a.price < b.price ? -1 : 0)
+    } else if (order === "2") {
+      results?.sort((a, b) => a.price < b.price ? 1 : a.price > b.price ? -1 : 0)
+    } else if (order === "3") {
+      results?.sort((a, b) => a.guests > b.guests ? 1 : a.guests < b.guests ? -1 : 0)
+    } else {
+      results?.sort((a, b) => a.guests < b.guests ? 1 : a.guests > b.guests ? -1 : 0)
+    }
 
     setAllData(results)
-  }, [inputSearch, getHouseholds?.households, guestsValue, priceValue, roomsValue, toiletsValue, orderPrice])
+  }, [inputSearch, getHouseholds?.households, guestsValue, priceValue, roomsValue, toiletsValue, order])
 
   if (loadingHouseholds) return (
     <Container maxW="container.md" textAlign="center">
@@ -145,7 +148,7 @@ export default function LandingPage() {
           <Grid
             templateColumns={{ lg: 'repeat(8, 1fr)', base: 'repeat(4, 1fr)' }}
             gap={6}>
-            <GridItem colSpan={{ lg: 6, base: 2 }}>
+            <GridItem colSpan={{ lg: 6, base: 4 }}>
               <InputGroup>
                 <InputLeftElement
                   pointersevents="none"
@@ -160,13 +163,21 @@ export default function LandingPage() {
               </InputGroup>
             </GridItem>
 
-            <Button ref={btnRef} variant='outline' onClick={onOpen} leftIcon={<IoMdSwitch />}>
-              Filtros
-            </Button>
+            <GridItem colSpan={2}>
+              <Stack
+                spacing={{ base: 4, sm: 6 }}
+                direction={{ base: 'column', sm: 'row' }}
+              >
+                <Button ref={btnRef} variant='outline' onClick={onOpen} leftIcon={<IoMdSwitch />}>
+                  Filtros
+                </Button>
 
-            <Button variant='outline' onClick={restartFilters} leftIcon={<VscDebugRestart />}>
-              Reiniciar
-            </Button>
+                <Button variant='outline' onClick={restartFilters} leftIcon={<VscDebugRestart />}>
+                  Reiniciar
+                </Button>
+              </Stack>
+            </GridItem>
+
           </Grid>
 
           <Drawer
@@ -235,17 +246,17 @@ export default function LandingPage() {
               <DrawerHeader>Ordenar</DrawerHeader>
               <DrawerBody>
                 <Text mt={5}>Precio</Text>
-                <RadioGroup onChange={setOrderPrice} value={orderPrice}>
+                <RadioGroup onChange={setOrder} value={order}>
                   <Stack direction='row'>
                     <Radio value="1">Mas bajo</Radio>
                     <Radio value="2">Mas alto</Radio>
                   </Stack>
                 </RadioGroup>
                 <Text mt={5}>Huéspedes</Text>
-                <RadioGroup onChange={setToiletsValue} value={toiletsValue}>
+                <RadioGroup onChange={setOrder} value={order}>
                   <Stack direction='row'>
-                    <Radio value="1">Mas bajo</Radio>
-                    <Radio value="2">Mas alto</Radio>
+                    <Radio value="3">Mas bajo</Radio>
+                    <Radio value="4">Mas alto</Radio>
                   </Stack>
                 </RadioGroup>
               </DrawerBody>
@@ -260,11 +271,11 @@ export default function LandingPage() {
 
         <Grid
           templateColumns={{ lg: 'repeat(3, 1fr)', md: 'repeat(2, 1fr)', base: 'repeat(1, 1fr)' }}
-          gap={6}>
+          gap={{ lg: 6, md: 4, base: 1 }}>
           {allData?.length === 0
             ? <Box mb="14"><Heading>No se han encontrado coincidencias</Heading></Box>
-            : allData?.map(household => (
-              <HouseholdCard key={household.id} props={household} />
+            : allData?.map((household, index) => (
+              <HouseholdCard key={index} props={household} />
             ))
           }
         </Grid>
