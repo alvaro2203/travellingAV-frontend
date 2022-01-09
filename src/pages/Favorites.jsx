@@ -1,6 +1,6 @@
 import Header from "../components/Header"
 import Footer from "../components/Footer"
-import { Box, Container, Grid, Heading, Spinner, Text } from "@chakra-ui/react"
+import { Box, Center, Container, Grid, Heading, Spinner, Text } from "@chakra-ui/react"
 import { Authentication } from "../utils/authentication"
 import HouseholdCard from "../components/HouseholdCard"
 import UseFavoriteHouseholds from "../graphql/hooks/households/useFavoriteHouseholds"
@@ -31,15 +31,21 @@ export default function Favorites() {
         <>
             <Header />
 
-            <Container maxW="container.xl" my="10">
+            <Container maxW="container.xl" mt={20}>
                 {favorites?.length === 0
-                    ? <Box my='10' textAlign='center'>
-                        <Heading>Aún no has añadido ninguna vivienda a tus favoritos..</Heading>
-                        <Text my='10'><Link to='/' style={{ color: "#00AFFF" }}>Haz click aquí para empezar a buscar vivendas</Link></Text>
+                    ? <Box mb='20'>
+                        <Center>
+                            <Heading my='20'>Aún no has añadido ninguna vivienda a tus favoritos..</Heading>
+                        </Center>
+                        <Center>
+                            <Text mb='20'><Link to='/' style={{ color: "#00AFFF" }}>Haz click aquí para empezar a buscar vivendas</Link></Text>
+                        </Center>
                     </Box>
                     : <>
-                        <Box my="10" textAlign="center">
-                            <Heading>Estas son tus viviendas favoritas !</Heading>
+                        <Box my="10">
+                            <Center>
+                                <Heading mt={10}>Estas son tus viviendas favoritas !</Heading>
+                            </Center>
                         </Box>
 
                         <Box my="10">

@@ -256,49 +256,21 @@ export default function HouseholdInfo() {
                                     <List spacing={2}>
                                         <ListItem>
                                             <Text as={'span'} fontWeight={'bold'}>
-                                                Between lugs:
+                                                Wifi:
                                             </Text>{' '}
-                                            20 mm
+                                            {householdProps.wifi ? 'Si' : 'No'}
                                         </ListItem>
                                         <ListItem>
                                             <Text as={'span'} fontWeight={'bold'}>
-                                                Bracelet:
+                                                Garaje:
                                             </Text>{' '}
-                                            leather strap
+                                            {householdProps.garage ? 'Si' : 'No'}
                                         </ListItem>
                                         <ListItem>
                                             <Text as={'span'} fontWeight={'bold'}>
-                                                Case:
+                                                Permite mascotas:
                                             </Text>{' '}
-                                            Steel
-                                        </ListItem>
-                                        <ListItem>
-                                            <Text as={'span'} fontWeight={'bold'}>
-                                                Case diameter:
-                                            </Text>{' '}
-                                            42 mm
-                                        </ListItem>
-                                    </List>
-
-                                    <List spacing={2}>
-                                        <ListItem>
-                                            <Text as={'span'} fontWeight={'bold'}>
-                                                Dial color:
-                                            </Text>{' '}
-                                            Black
-                                        </ListItem>
-                                        <ListItem>
-                                            <Text as={'span'} fontWeight={'bold'}>
-                                                Crystal:
-                                            </Text>{' '}
-                                            Domed, scratch‑resistant sapphire crystal with anti‑reflective
-                                            treatment inside
-                                        </ListItem>
-                                        <ListItem>
-                                            <Text as={'span'} fontWeight={'bold'}>
-                                                Water resistance:
-                                            </Text>{' '}
-                                            5 bar (50 metres / 167 feet){' '}
+                                            {householdProps.pets ? 'Si' : 'No'}
                                         </ListItem>
                                     </List>
                                 </SimpleGrid>

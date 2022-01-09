@@ -1,4 +1,6 @@
-import { Box, Button, Center, Container, FormControl, FormLabel, Grid, Heading, Input, Spinner, Text, useToast } from "@chakra-ui/react";
+import {
+  Box, Button, Center, Container, FormControl, Grid, GridItem, Heading, Input, Spinner, Text, useToast,
+} from "@chakra-ui/react";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer"
 import { Authentication } from "../../utils/authentication";
@@ -9,6 +11,9 @@ import { useMutation } from "@apollo/client";
 import { ME_EXTENDED } from "../../graphql/queries/me"
 import AWS from 'aws-sdk'
 import { useState } from 'react'
+
+//css
+import './avatar.css'
 
 const S3_BUCKET = 'travellingav'
 const REGION = 'eu-west-3'
@@ -63,6 +68,7 @@ export default function Profile() {
   }
 
   const handleSubmit = async (values, { setSubmitting }) => {
+    console.log(values)
     setSubmitting(true)
     try {
       if (!values.nombre || !values.apellido || !values.telefono) {
@@ -75,8 +81,11 @@ export default function Profile() {
           isClosable: true
         })
       } else {
-        // uploadFile(selectedFile)
         let avatar;
+
+        if (selectedFile?.name !== null && selectedFile?.name !== me?.avatar) {
+          uploadFile(selectedFile)
+        }
 
         selectedFile?.name === null
           ? avatar = me?.avatar
@@ -124,12 +133,12 @@ export default function Profile() {
     <div>
       <Header />
 
-      <Container maxW="container.xl" mt="10">
+      <Container maxW="container.xl" my={20}>
         <Center>
-          <Heading>Bienvenid@ {me.username}</Heading>
+          <Heading mt={10}>Bienvenid@ {me.username}</Heading>
         </Center>
 
-        <Box my="10">
+        <Box my="10" textAlign='center'>
           <Text>Ayúdanos a completar tu perfil para una mejor experiencia con la plataforma</Text>
           <Text>Solo tienes que rellenar los siguientes datos: </Text>
         </Box>
@@ -145,60 +154,94 @@ export default function Profile() {
             handleChange
           }) => (
             <Form onSubmit={handleSubmit}>
-              <Box>
-                <FormControl>
-                  <Grid templateColumns="repeat(3, 1fr)" gap={1}>
-                    <FormLabel textAlign="center">Nombre: </FormLabel>
-                    <Input
-                      name="nombre"
-                      value={values.nombre}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                </FormControl>
 
-                <FormControl my="5">
-                  <Grid templateColumns="repeat(3, 1fr)" gap={1}>
-                    <FormLabel textAlign="center">Apellido: </FormLabel>
-                    <Input
-                      name="apellido"
-                      value={values.apellido}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                </FormControl>
-
-                <FormControl my="5">
-                  <Grid templateColumns="repeat(3, 1fr)" gap={1}>
-                    <FormLabel textAlign="center">Teléfono: </FormLabel>
-                    <Input
-                      type="number"
-                      name="telefono"
-                      value={values.telefono}
-                      onChange={handleChange}
-                    />
-                  </Grid>
-                </FormControl>
-
-                <FormControl my="5">
+              {/* <FormControl my="5">
                   <Grid templateColumns="repeat(3, 1fr)" gap={1}>
                     <FormLabel textAlign="center">Avatar: </FormLabel>
                     <input type="file" onChange={handleFileInput} />
                   </Grid>
-                </FormControl>
+                </FormControl> */}
+              <Box p={10}>
+                <Center>
+                  <Grid templateColumns={{ lg: 'repeat(7, 1fr)', md: 'repeat(5, 1fr)', base: 'repeat(3, 1fr)' }} gap={6}>
+                    <GridItem colSpan={1} colStart={{ lg: 3, md: 2, base: 2 }}>
+                      <Box>
+                        <div className="profile-img">
+                          <img
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5yTxBxqX7UPLILheEuZbgOuYver2PQLQxuQ&usqp=CAU"
+                            alt=""
+                          />
+                          <div className="file">
+                            Cambiar foto
+                            <input type='file' name='file' onChange={handleFileInput} />
+                          </div>
+                        </div>
+                      </Box>
 
+                    </GridItem>
+
+                    <GridItem colSpan={{ lg: 3, md: 3, base: 3 }}>
+                      <FormControl mt='6'>
+                        <Grid templateColumns="repeat(3, 1fr)" gap={1}>
+                          {/* <FormLabel textAlign="center">Nombre: </FormLabel> */}
+                          <Text textAlign='center' fontWeight='bold'>Nombre: </Text>
+                          <Input
+                            name="nombre"
+                            value={values.nombre}
+                            onChange={handleChange}
+                            variant='flushed'
+                            size='sm'
+                          />
+                        </Grid>
+                      </FormControl>
+
+                      <FormControl my="6">
+                        <Grid templateColumns="repeat(3, 1fr)" gap={1}>
+                          {/* <FormLabel textAlign="center">Apellido: </FormLabel> */}
+                          <Text textAlign='center' fontWeight='bold'>Apellido: </Text>
+                          <Input
+                            name="apellido"
+                            value={values.apellido}
+                            onChange={handleChange}
+                            variant='flushed'
+                            size='sm'
+                          />
+                        </Grid>
+                      </FormControl>
+
+                      <FormControl my="6">
+                        <Grid templateColumns="repeat(3, 1fr)" gap={1}>
+                          {/* <FormLabel textAlign="center">Teléfono: </FormLabel> */}
+                          <Text textAlign='center' fontWeight='bold'>Teléfono: </Text>
+                          <Input
+                            type="number"
+                            name="telefono"
+                            value={values.telefono}
+                            onChange={handleChange}
+                            variant='flushed'
+                            size='sm'
+                          />
+                        </Grid>
+                      </FormControl>
+                    </GridItem>
+                  </Grid>
+                </Center>
               </Box>
 
-              <Box my="10">
+              <Container mb="10" mt='5'>
                 <Button
                   w="full"
                   type="submit"
                   borderRadius="lg"
+                  bg='blue.600'
+                  color='black'
                   disabled={isSubmitting}
                 >
                   Aceptar
                 </Button>
-              </Box>
+              </Container>
+
+
             </Form>
           )}
 

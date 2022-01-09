@@ -10,6 +10,7 @@ import {
     HStack,
     Wrap,
     WrapItem,
+    useColorMode,
 } from '@chakra-ui/react';
 import Header from './Header';
 import Footer from './Footer';
@@ -24,15 +25,15 @@ import { BsGithub, BsDiscord } from 'react-icons/bs';
 
 export default function Contact() {
     Authentication()
+    const { colorMode } = useColorMode()
 
     return (
         <>
             <Header />
-            <Container maxW="full" mt={0} centerContent overflow="hidden">
+            <Container maxW="full" mt={20} centerContent overflow="hidden">
                 <Flex>
                     <Box
-                        bg="#02054B"
-                        color="white"
+                        color={colorMode === 'dark' ? 'white' : 'black'}
                         borderRadius="lg"
                         m={{ sm: 4, md: 16, lg: 10 }}
                         p={{ sm: 5, md: 5, lg: 16 }}>
@@ -51,7 +52,7 @@ export default function Contact() {
                                                     height="48px"
                                                     width="200px"
                                                     variant="ghost"
-                                                    color="#DCE2FF"
+                                                    color={colorMode === 'dark' ? "#DCE2FF" : 'black'}
                                                     _hover={{ border: '2px solid #1C6FEB' }}
                                                     leftIcon={<MdPhone color="#1970F1" size="20px" />}>
                                                     +34-654489721
@@ -61,7 +62,7 @@ export default function Contact() {
                                                     height="48px"
                                                     width="200px"
                                                     variant="ghost"
-                                                    color="#DCE2FF"
+                                                    color={colorMode === 'dark' ? "#DCE2FF" : 'black'}
                                                     _hover={{ border: '2px solid #1C6FEB' }}
                                                     leftIcon={<MdEmail color="#1970F1" size="20px" />}>
                                                     soporte@travenllingAV.com
@@ -71,7 +72,7 @@ export default function Contact() {
                                                     height="48px"
                                                     width="200px"
                                                     variant="ghost"
-                                                    color="#DCE2FF"
+                                                    color={colorMode === 'dark' ? "#DCE2FF" : 'black'}
                                                     _hover={{ border: '2px solid #1C6FEB' }}
                                                     leftIcon={<MdLocationOn color="#1970F1" size="20px" />}>
                                                     Móstoles, España

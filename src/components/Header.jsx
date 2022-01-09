@@ -4,10 +4,15 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Badge,
+  Container,
+  color,
 } from "@chakra-ui/react"
 import { APP_NAME, AUTH_TOKEN } from "../utils/constans";
 import useMe from '../graphql/hooks/useMe';
 import { client } from '../index'
+
+//css
+import '../styles/header.css'
 
 //icons
 import { BsFillBrightnessHighFill, BsFillMoonFill } from "react-icons/bs";
@@ -30,8 +35,17 @@ export default function Header() {
 
   return (
     <Box>
-      <Flex p="8" alignItems="center" justifyContent="space-between">
-        <Box>
+      <Flex
+        className='header'
+        as='header'
+        position='fixed'
+        w='100%'
+        p="4"
+        alignItems="center"
+        justifyContent="space-between"
+        bg={colorMode === 'dark' ? 'gray.10' : 'gray.800'}
+      >
+        <Box ml={{ lg: '20vh' }}>
           <Link to="/">
             <Text fontSize="2xl" color="blue.600">
               {APP_NAME}
@@ -45,6 +59,7 @@ export default function Header() {
           letterSpacing="wide"
           fontSize="xs"
           textTransform="uppercase"
+          ml={{ lg: '0', md: '10px', base: '20px' }}
         >
           <Breadcrumb separator='-'>
             <BreadcrumbItem>
@@ -62,14 +77,15 @@ export default function Header() {
         </Box>
 
 
-        <Flex alignItems="center">
+        <Flex alignItems="center" mr={{ lg: '20vh' }}>
           <Stack direction="row" spacing={7}>
             <Button
               onClick={toggleColorMode}
               aria-label="cambiar tema de luz"
               variant="ghost"
-              colorScheme="blue"
+              color='blue.600'
               size="md"
+              _hover={colorMode === 'light' ? { bg: 'gray.800' } : { bg: 'gray.10' }}
             >
               {colorMode === 'dark' ? <BsFillBrightnessHighFill /> : <BsFillMoonFill />}
             </Button>

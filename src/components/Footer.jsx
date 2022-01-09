@@ -5,15 +5,21 @@ import {
   SimpleGrid,
   Stack,
   Text,
-  useColorModeValue,
+  useColorMode,
 } from '@chakra-ui/react';
 import { APP_NAME } from '../utils/constans';
 
+//css
+import '../styles/header.css'
+
 export default function Footer() {
+  const { colorMode } = useColorMode()
+
   return (
     <Box
-      bg={useColorModeValue('gray.200', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}
+      className='footer'
+      bg={colorMode === 'dark' ? 'gray.10' : 'gray.800'}
+      color={colorMode === 'dark' ? 'gray.700' : 'gray.200'}
     >
       <Container as={Stack} maxW={'6xl'} py={10}>
         <SimpleGrid

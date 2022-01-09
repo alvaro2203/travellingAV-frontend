@@ -28,23 +28,26 @@ export default function Carousel({ image1, image2, image3 }) {
     const side = useBreakpointValue({ base: '30%', md: '40px' });
     let image1Url, image2Url, image3Url;
 
-    if (image1 === null) {
-        image1Url = 'https://media.istockphoto.com/photos/modern-living-room-interior-3d-render-picture-id1293762741?b=1&k=20&m=1293762741&s=170667a&w=0&h=2RI8SmBN4MrEZuTvdwRzaeB887x-dukFcQBpyQ-qwS4='
-    } else {
-        image1Url = `https://travellingav.s3.eu-west-3.amazonaws.com/${image1}`
-    }
+    //if (image1 === null) {
+    image1Url = 'https://media.istockphoto.com/photos/modern-living-room-interior-3d-render-picture-id1293762741?b=1&k=20&m=1293762741&s=170667a&w=0&h=2RI8SmBN4MrEZuTvdwRzaeB887x-dukFcQBpyQ-qwS4='
+    //}
+    // else {
+    //     image1Url = `https://travellingav.s3.eu-west-3.amazonaws.com/${image1}`
+    // }
 
-    if (image2 === null) {
-        image2Url = 'https://media.istockphoto.com/photos/modern-elegant-kitchen-stock-photo-picture-id1297586166?b=1&k=20&m=1297586166&s=170667a&w=0&h=Ka-3OYiTlbCiwCJhoXeTqRewh3DI4qfSh1B0baJMcCk='
-    } else {
-        image2Url = `https://travellingav.s3.eu-west-3.amazonaws.com/${image2}`
-    }
+    //if (image2 === null) {
+    image2Url = 'https://media.istockphoto.com/photos/modern-elegant-kitchen-stock-photo-picture-id1297586166?b=1&k=20&m=1297586166&s=170667a&w=0&h=Ka-3OYiTlbCiwCJhoXeTqRewh3DI4qfSh1B0baJMcCk='
+    //}
+    //  else {
+    //     image2Url = `https://travellingav.s3.eu-west-3.amazonaws.com/${image2}`
+    // }
 
-    if (image3 === null) {
-        image3Url = 'https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmVkcm9vbXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
-    } else {
-        image3Url = `https://travellingav.s3.eu-west-3.amazonaws.com/${image3}`
-    }
+    //if (image3 === null) {
+    image3Url = 'https://images.unsplash.com/photo-1540518614846-7eded433c457?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YmVkcm9vbXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
+    //}
+    // else {
+    //     image3Url = `https://travellingav.s3.eu-west-3.amazonaws.com/${image3}`
+    // }
 
     const cards = [
         {

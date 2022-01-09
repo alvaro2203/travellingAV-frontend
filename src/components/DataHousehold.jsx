@@ -1,6 +1,6 @@
 import {
     Container, Spinner, Box, Text, Button, Heading, Grid, Center,
-    FormControl, FormLabel, Select, Input, useToast, Textarea, GridItem,
+    FormControl, FormLabel, Select, Input, useToast, Textarea, GridItem, Switch, Stack,
 } from "@chakra-ui/react"
 import { Formik } from 'formik'
 import UsePlaces from "../graphql/hooks/usePlaces"
@@ -41,6 +41,7 @@ export default function DataHousehold() {
 
         filesList.map(file => {
             console.log(file.name)
+            //uploadFile(file)
         })
 
         setImage1(e.target.files[0])
@@ -73,7 +74,10 @@ export default function DataHousehold() {
         precio: 0,
         habitaciones: 0,
         baños: 0,
-        huespedes: 0
+        huespedes: 0,
+        wifi: false,
+        garage: false,
+        pets: false,
     }
 
     if (!me) return null
@@ -104,8 +108,8 @@ export default function DataHousehold() {
                     setSubmitting(true)
                     try {
                         if (!values.descripcion || !values.ciudad || !values.calle || !values.comunidad || !values.numero ||
-                            !values.piso || !values.letra || !values.precio ||
-                            !values.habitaciones || !values.baños || !values.huespedes || image1 !== null) {
+                            !values.precio || !values.habitaciones || !values.baños ||
+                            !values.huespedes || !values.descripcion || image1 === null) {
                             toast({
                                 title: "Error",
                                 description: "Introduce los campos necesarios",
@@ -141,9 +145,11 @@ export default function DataHousehold() {
                                         image1: image1.name,
                                         image2: image2.name,
                                         image3: image3.name,
+                                        wifi: values.wifi,
+                                        garage: values.garage,
+                                        pets: values.pets
                                     }
                                 }).then((data) => {
-                                    console.log(data)
                                     toast({
                                         title: "Vivienda añadida",
                                         description: "Se ha añadido tu vivienda correctamente",
@@ -362,6 +368,45 @@ export default function DataHousehold() {
 
                         <Container
                             maxW='container.sm'
+                            my={8}
+                            p={2}
+                            textAlign='center'
+                        >
+                            <Text>Detalles que ofrece tu vivienda</Text>
+                            <FormControl mt={4}>
+                                <Grid gridTemplateColumns="repeat(6, 1fr)" gap={1}>
+                                    <GridItem colSpan={2}>
+                                        <Stack direction={['column', 'row']} spacing='10px'>
+                                            <FormLabel textAlign='center' fontSize='18px'>
+                                                Wifi
+                                            </FormLabel>
+                                            <Switch size='lg' name='wifi' value={values.wifi} onChange={handleChange} />
+                                        </Stack>
+                                    </GridItem>
+
+                                    <GridItem colSpan={2}>
+                                        <Stack direction={['column', 'row']} spacing='10px'>
+                                            <FormLabel textAlign='center' fontSize='18px'>
+                                                Garaje
+                                            </FormLabel>
+                                            <Switch size='lg' name="garage" value={values.garage} onChange={handleChange} />
+                                        </Stack>
+                                    </GridItem>
+
+                                    <GridItem colSpan={2}>
+                                        <Stack direction={['column', 'row']} spacing='10px'>
+                                            <FormLabel textAlign='center' fontSize='16px' mt='0.3'>
+                                                Permite mascotas
+                                            </FormLabel>
+                                            <Switch size='lg' name="pets" value={values.pets} onChange={handleChange} />
+                                        </Stack>
+                                    </GridItem>
+                                </Grid>
+                            </FormControl>
+                        </Container>
+
+                        <Container
+                            maxW='container.sm'
                             my={6}
                             p={2}
                         >
@@ -375,8 +420,6 @@ export default function DataHousehold() {
                                         <input
                                             onChange={handleFileInput}
                                             multiple
-                                            // value={values.huespedes}
-                                            // onChange={handleChange}
                                             type="file"
                                         />
                                     </GridItem>

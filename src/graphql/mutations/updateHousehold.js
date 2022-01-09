@@ -8,6 +8,10 @@ export const UPDATE_HOUSEHOLD = gql`
         $guests: Int!,
         $toilets: Int!,
         $bedrooms: Int!
+        $description: String!,
+        $wifi: Boolean!,
+        $garage: Boolean!,
+        $pets: Boolean!
     ){
         updateHousehold(
             input:{
@@ -16,7 +20,11 @@ export const UPDATE_HOUSEHOLD = gql`
                     price: $price,
                     guests: $guests,
                     toilets: $toilets,
-                    bedrooms: $bedrooms
+                    bedrooms: $bedrooms,
+                    description: $description,
+                    wifi: $wifi,
+                    garage: $garage,
+                    pets: $pets
                 }
             }
         ){

@@ -5,6 +5,9 @@ import {
     AlertDialogHeader,
     AlertDialogContent,
     AlertDialogOverlay,
+    Textarea,
+    Stack,
+    Switch,
 } from "@chakra-ui/react";
 import { Form, Formik } from "formik";
 import { useMutation } from "@apollo/client";
@@ -29,7 +32,11 @@ export default function UpdateHousehold(householdProps) {
         price: props.price,
         guests: props.guests,
         bedrooms: props.bedrooms,
-        toilets: props.toilets
+        toilets: props.toilets,
+        description: props.description,
+        wifi: props.wifi,
+        garage: props.garage,
+        pets: props.pets,
     }
 
     const handleDelete = async () => {
@@ -64,13 +71,15 @@ export default function UpdateHousehold(householdProps) {
         </Box>
     )
 
+    console.log(props)
+
     return (
         <Formik
             initialValues={initialValues}
             onSubmit={async (values, { setSubmitting }) => {
                 setSubmitting(true)
                 try {
-                    if (!values.price || !values.guests || !values.bedrooms || !values.toilets) {
+                    if (!values.price || !values.guests || !values.bedrooms || !values.toilets || !values.description) {
                         toast({
                             title: "Error",
                             description: "Introduce los campos necesarios",
@@ -86,7 +95,11 @@ export default function UpdateHousehold(householdProps) {
                                 price: values.price,
                                 guests: values.guests,
                                 toilets: values.toilets,
-                                bedrooms: values.bedrooms
+                                bedrooms: values.bedrooms,
+                                description: values.description,
+                                wifi: values.wifi,
+                                garage: values.garage,
+                                pets: values.pets,
                             }
                         }).then(() => {
                             toast({
@@ -110,6 +123,21 @@ export default function UpdateHousehold(householdProps) {
             handleChange
         }) => (
             <Form>
+                <FormControl mt={4}>
+                    <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
+                        <FormLabel textAlign="center">Descripción: </FormLabel>
+                        <GridItem colSpan={2}>
+                            <Textarea
+                                name="description"
+                                value={values.description}
+                                onChange={handleChange}
+                                size="sm"
+                                placeholder="Introduce una breve descripción de tu vivienda"
+                            />
+                        </GridItem>
+                    </Grid>
+                </FormControl>
+
                 <FormControl mt={4}>
                     <Grid gridTemplateColumns="repeat(3, 1fr)" gap={1}>
                         <FormLabel textAlign="center">Precio: </FormLabel>
@@ -170,6 +198,49 @@ export default function UpdateHousehold(householdProps) {
                                 size="sm"
                                 placeholder="Introduce los baños de tu alojamiento"
                             />
+                        </GridItem>
+                    </Grid>
+                </FormControl>
+
+                <FormControl mt={8}>
+                    <Grid gridTemplateColumns="repeat(6, 1fr)" gap={1}>
+                        <GridItem colSpan={2}>
+                            <Stack direction={['column', 'row']} spacing='10px'>
+                                <FormLabel textAlign='center' fontSize='18px'>
+                                    Wifi
+                                </FormLabel>
+                                <Switch size='lg' name='wifi'
+                                    value={values.wifi}
+                                    onChange={handleChange}
+                                    isChecked={values.wifi ? true : false}
+                                />
+                            </Stack>
+                        </GridItem>
+
+                        <GridItem colSpan={2}>
+                            <Stack direction={['column', 'row']} spacing='10px'>
+                                <FormLabel textAlign='center' fontSize='18px'>
+                                    Garaje
+                                </FormLabel>
+                                <Switch size='lg' name="garage"
+                                    value={values.garage}
+                                    onChange={handleChange}
+                                    isChecked={values.garage ? true : false}
+                                />
+                            </Stack>
+                        </GridItem>
+
+                        <GridItem colSpan={2}>
+                            <Stack direction={['column', 'row']} spacing='10px'>
+                                <FormLabel textAlign='center' fontSize='16px' mt='0.3'>
+                                    Permite mascotas
+                                </FormLabel>
+                                <Switch size='lg' name="pets"
+                                    value={values.pets}
+                                    onChange={handleChange}
+                                    isChecked={values.pets ? true : false}
+                                />
+                            </Stack>
                         </GridItem>
                     </Grid>
                 </FormControl>

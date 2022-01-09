@@ -2,7 +2,7 @@ import { gql } from "@apollo/client"
 
 export const CREATE_LOCATION = gql`
 mutation addLocation(
-    $city: String!, $street: String!, $number: Int!, $floor: Int!, $letter: String!, $place: ID! 
+    $city: String!, $street: String!, $number: Int!, $floor: Int, $letter: String, $place: ID! 
 ){
     createLocation(
       input:{

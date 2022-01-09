@@ -11,6 +11,9 @@ export const HOUSEHOLD_FRAGMENT = gql`
         image1
         image2
         image3
+        wifi
+        pets
+        garage
         location{
             city
             street
