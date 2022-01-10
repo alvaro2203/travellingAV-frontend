@@ -1,13 +1,6 @@
 import { Link, useHistory } from 'react-router-dom'
 import {
-  Flex, Box, useColorMode, Text, Button, Stack, Menu, MenuButton, Avatar, MenuList, Center, MenuDivider, MenuItem, Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Badge,
-  Container,
-  color,
-  IconButton,
-  useDisclosure,
+  Flex, Box, useColorMode, Text, Button, Stack, Menu, MenuButton, Avatar, MenuList, Center, MenuDivider, MenuItem, Badge, IconButton, useDisclosure, Collapse,
 } from "@chakra-ui/react"
 import { APP_NAME, AUTH_TOKEN } from "../utils/constans";
 import useMe from '../graphql/hooks/useMe';
@@ -46,7 +39,6 @@ export default function Header() {
         w='100%'
         p="4"
         alignItems="center"
-        // justifyContent="space-between"
         bg={colorMode === 'dark' ? 'gray.10' : 'gray.800'}
       >
         <Flex
@@ -56,14 +48,14 @@ export default function Header() {
         >
           <IconButton
             onClick={onToggle}
-            colorScheme='red'
+            colorScheme='blue'
             icon={isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />}
             variant='ghost'
             aria-label='Barra de navegación'
           />
         </Flex>
 
-        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
+        <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }} ml={{ lg: '20vh' }}>
           <Link to="/">
             <Text fontSize="2xl" color="blue.600" textAlign={{ base: 'center', md: 'left' }}>
               {APP_NAME}
@@ -75,7 +67,7 @@ export default function Header() {
             ml={10}
           >
             <Stack direction='row' spacing={8}>
-              <Box textTransform="uppercase" letterSpacing="wide">
+              <Box textTransform="uppercase" letterSpacing="wide" pt={2}>
                 <Link to='/'>
                   <Text
                     color='blue.600'
@@ -91,7 +83,7 @@ export default function Header() {
                   </Text>
                 </Link>
               </Box>
-              <Box textTransform="uppercase">
+              <Box textTransform="uppercase" letterSpacing="wide" pt={2}>
                 <Link to='/favorites'>
                   <Text
                     color='blue.600'
@@ -107,7 +99,7 @@ export default function Header() {
                 </Link>
               </Box>
 
-              <Box textTransform="uppercase">
+              <Box textTransform="uppercase" letterSpacing="wide" pt={2}>
                 <Link to='/contact'>
                   <Text
                     color='blue.600'
@@ -125,35 +117,13 @@ export default function Header() {
             </Stack>
           </Flex>
         </Flex>
-        {/* <Box
-          color="blue.600"
-          fontWeight="semibold"
-          letterSpacing="wide"
-          fontSize="xs"
-          textTransform="uppercase"
-          ml={{ lg: '0', md: '10px', base: '20px' }}
-        >
-          <Breadcrumb separator='-'>
-            <BreadcrumbItem>
-              <BreadcrumbLink as={Link} to="/">Alojamientos</BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem>
-              <BreadcrumbLink as={Link} to="/favorites">Favoritos</BreadcrumbLink>
-            </BreadcrumbItem>
-
-            <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink as={Link} to="/contact">Contáctanos</BreadcrumbLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
-        </Box> */}
-
 
         <Stack
           flex={{ base: 1, md: 0 }}
           justify='flex-end'
           direction="row"
           spacing={6}
+          mr={{ lg: '20vh' }}
         >
           <Button
             onClick={toggleColorMode}
@@ -205,6 +175,77 @@ export default function Header() {
 
         </Stack>
       </Flex>
+
+      <Collapse in={isOpen} animateOpacity>
+        <Stack
+          bg={colorMode === 'dark' ? 'gray.10' : 'gray.800'}
+          p={4}
+          mt={16}
+          className='header'
+          position='fixed'
+          w='100%'
+        >
+          <Stack spacing={4} onClick={onToggle}>
+            <Flex
+              py={2}
+              justify='space-between'
+              align='center'
+              _hover={{
+                textDecoration: 'none'
+              }}
+            >
+              <Link to='/'>
+                <Text
+                  fontWeight={600}
+                  color='blue.600'
+                >
+                  Alojamientos
+                </Text>
+              </Link>
+            </Flex>
+          </Stack>
+
+          <Stack spacing={4} onClick={onToggle}>
+            <Flex
+              py={2}
+              justify='space-between'
+              align='center'
+              _hover={{
+                textDecoration: 'none'
+              }}
+            >
+              <Link to='/favorites'>
+                <Text
+                  fontWeight={600}
+                  color='blue.600'
+                >
+                  Favoritos
+                </Text>
+              </Link>
+            </Flex>
+          </Stack>
+
+          <Stack spacing={4} onClick={onToggle}>
+            <Flex
+              py={2}
+              justify='space-between'
+              align='center'
+              _hover={{
+                textDecoration: 'none'
+              }}
+            >
+              <Link to='/contact'>
+                <Text
+                  fontWeight={600}
+                  color='blue.600'
+                >
+                  Contáctanos
+                </Text>
+              </Link>
+            </Flex>
+          </Stack>
+        </Stack>
+      </Collapse>
     </Box >
   );
 }

@@ -26,8 +26,8 @@ export default function HouseholdInfo() {
     const { householdId } = useParams()
     const { getHousehold, loadingHousehold, errorHousehold, refetchHousehold } = UseHousehold(householdId);
     const { data: favoriteData, loading: favoriteLoading, error: favoriteError, refetch: favoriteRefetch } = UseIsFavoriteHousehold(me?.id, householdId)
-    const [addFavorites, { loading }] = useMutation(CREATE_FAVORITE_HOUSEHOLD)
-    const [deleteFavorites, { loading: loadingDelete }] = useMutation(DELETE_FAVORITE_HOUSEHOLD)
+    const [addFavorites] = useMutation(CREATE_FAVORITE_HOUSEHOLD)
+    const [deleteFavorites] = useMutation(DELETE_FAVORITE_HOUSEHOLD)
     const { colorMode } = useColorMode()
     const toast = useToast()
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -86,7 +86,7 @@ export default function HouseholdInfo() {
 
     if (!me) return null
 
-    if (loadingHousehold || loading || favoriteLoading || loadingDelete) return (
+    if (loadingHousehold || favoriteLoading) return (
         <Container maxW="container.md" textAlign="center">
             <Spinner size="xl" thickness="4px" speed="0.65s" />
         </Container>
