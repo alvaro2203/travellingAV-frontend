@@ -68,7 +68,7 @@ export default function Header() {
           >
             <Stack direction='row' spacing={8}>
               <Box textTransform="uppercase" letterSpacing="wide" pt={2}>
-                <Link to='/'>
+                <Link to='/siteMap'>
                   <Text
                     color='blue.600'
                     fontWeight="semibold"
@@ -79,10 +79,26 @@ export default function Header() {
                       color: 'blue.300'
                     }}
                   >
+                    Mapa del sitio
+                  </Text>
+                </Link>
+              </Box>
+              <Box textTransform="uppercase" letterSpacing="wide" pt={2}>
+                <Link to='/'>
+                  <Text
+                    color='blue.600'
+                    fontWeight="semibold"
+                    fontSize='sm'
+                    _hover={{
+                      textDecoration: 'underline',
+                      color: 'blue.300'
+                    }}
+                  >
                     Alojamientos
                   </Text>
                 </Link>
               </Box>
+
               <Box textTransform="uppercase" letterSpacing="wide" pt={2}>
                 <Link to='/favorites'>
                   <Text
@@ -167,7 +183,7 @@ export default function Header() {
               </Center>
               <br />
               <MenuDivider />
-              <Link to={`/profile/${me.id}`}><MenuItem>Mi perfil{!isCompleted ? <Badge ml={2} bg='#FF7800'>!</Badge> : null}</MenuItem></Link>
+              <Link to={`/profile/${me?.id}`}><MenuItem>Mi perfil{!isCompleted ? <Badge ml={2} bg='#FF7800'>!</Badge> : null}</MenuItem></Link>
               <Link to="/myHousehold"><MenuItem>Ofrece tu alojamiento</MenuItem></Link>
               <MenuItem onClick={logOut}>Cerrar Sesión</MenuItem>
             </MenuList>
@@ -240,6 +256,26 @@ export default function Header() {
                   color='blue.600'
                 >
                   Contáctanos
+                </Text>
+              </Link>
+            </Flex>
+          </Stack>
+
+          <Stack spacing={4} onClick={onToggle}>
+            <Flex
+              py={2}
+              justify='space-between'
+              align='center'
+              _hover={{
+                textDecoration: 'none'
+              }}
+            >
+              <Link to='/siteMap'>
+                <Text
+                  fontWeight={600}
+                  color='blue.600'
+                >
+                  Mapa del sitio
                 </Text>
               </Link>
             </Flex>

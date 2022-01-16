@@ -11,6 +11,7 @@ import {
     Wrap,
     WrapItem,
     useColorMode,
+    Link,
 } from '@chakra-ui/react';
 import Header from './Header';
 import Footer from './Footer';
@@ -31,7 +32,7 @@ export default function Contact() {
         <>
             <Header />
             <Container maxW="full" mt={20} centerContent overflow="hidden">
-                <Flex>
+                <Flex mb={16}>
                     <Box
                         color={colorMode === 'dark' ? 'white' : 'black'}
                         borderRadius="lg"
@@ -84,30 +85,36 @@ export default function Contact() {
                                             spacing={5}
                                             px={5}
                                             alignItems="flex-start">
-                                            <IconButton
-                                                aria-label="facebook"
-                                                variant="ghost"
-                                                size="lg"
-                                                isRound={true}
-                                                _hover={{ bg: '#0D74FF' }}
-                                                icon={<MdFacebook size="28px" />}
-                                            />
-                                            <IconButton
-                                                aria-label="github"
-                                                variant="ghost"
-                                                size="lg"
-                                                isRound={true}
-                                                _hover={{ bg: '#0D74FF' }}
-                                                icon={<BsGithub size="28px" />}
-                                            />
-                                            <IconButton
-                                                aria-label="discord"
-                                                variant="ghost"
-                                                size="lg"
-                                                isRound={true}
-                                                _hover={{ bg: '#0D74FF' }}
-                                                icon={<BsDiscord size="28px" />}
-                                            />
+                                            <Link href='https://facebook.com'>
+                                                <IconButton
+                                                    aria-label="facebook"
+                                                    variant="ghost"
+                                                    size="lg"
+                                                    isRound={true}
+                                                    _hover={{ bg: '#0D74FF' }}
+                                                    icon={<MdFacebook size="28px" />}
+                                                />
+                                            </Link>
+                                            <Link href={'https://github.com'}>
+                                                <IconButton
+                                                    aria-label="github"
+                                                    variant="ghost"
+                                                    size="lg"
+                                                    isRound={true}
+                                                    _hover={{ bg: '#0D74FF' }}
+                                                    icon={<BsGithub size="28px" />}
+                                                />
+                                            </Link>
+                                            <Link href={'https://discord.com'}>
+                                                <IconButton
+                                                    aria-label="discord"
+                                                    variant="ghost"
+                                                    size="lg"
+                                                    isRound={true}
+                                                    _hover={{ bg: '#0D74FF' }}
+                                                    icon={<BsDiscord size="28px" />}
+                                                />
+                                            </Link>
                                         </HStack>
                                     </Box>
                                 </WrapItem>

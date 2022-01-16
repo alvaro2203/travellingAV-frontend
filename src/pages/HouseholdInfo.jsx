@@ -135,7 +135,6 @@ export default function HouseholdInfo() {
                                             <IconButton
                                                 ml={6}
                                                 variant='ghost'
-                                                // colorScheme='red'
                                                 color='#FF0000'
                                                 fontSize='30px'
                                                 aria-label='añadir a favoritos'
@@ -163,7 +162,7 @@ export default function HouseholdInfo() {
                                 <Avatar
                                     size="md"
                                     name={householdProps.user.username}
-                                //src={`https://travellingav.s3.eu-west-3.amazonaws.com/${householdProps.user.avatar}`}
+                                // src={`https://travellingav.s3.eu-west-3.amazonaws.com/${householdProps.user.avatar}`}
                                 />
                             </Stack>
                         </Grid>
@@ -339,11 +338,6 @@ export default function HouseholdInfo() {
                                 </ModalBody>
                             </ModalContent>
                         </Modal>
-
-                        <Stack direction="row" alignItems="center" justifyContent={'center'}>
-                            <MdLocalShipping />
-                            <Text>2-3 business days delivery</Text>
-                        </Stack>
                     </Stack>
                 </SimpleGrid>
             </Container>

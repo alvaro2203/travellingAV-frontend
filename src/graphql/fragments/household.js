@@ -14,6 +14,7 @@ export const HOUSEHOLD_FRAGMENT = gql`
         wifi
         pets
         garage
+        date
         location{
             city
             street
@@ -30,6 +31,5 @@ export const HOUSEHOLD_FRAGMENT = gql`
             telephone
             avatar
         }
-        created_at
     }
 `;

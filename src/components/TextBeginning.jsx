@@ -1,7 +1,7 @@
-import { Container, Box, Text, Flex, Stack, Button, Heading, Image } from "@chakra-ui/react"
+import { Container, Box, Text, Flex, Stack, Heading, Image } from "@chakra-ui/react"
 import { APP_NAME } from '../utils/constans'
 
-export default function TextBeginning({ title, text }) {
+export default function TextBeginning({ title, text, img }) {
     return (
         <>
             <Container maxW={'7xl'}>
@@ -59,9 +59,7 @@ export default function TextBeginning({ title, text }) {
                                 align={'center'}
                                 w={'100%'}
                                 h={'100%'}
-                                src={
-                                    'https://images.unsplash.com/photo-1499591934245-40b55745b905?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHJhdmVsbGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'
-                                }
+                                src={img}
                             />
                         </Box>
                     </Flex>

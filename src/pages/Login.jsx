@@ -128,12 +128,12 @@ export default function Login() {
                                     </InputGroup>
 
                                 </FormControl>
-
+                                {/* 
                                 <Box textAlign="right" mt={4}>
                                     <Link to="/rstPassword" style={{ color: "#00AFFF" }}>¿Olvidaste tu contraseña?</Link>
-                                </Box>
+                                </Box> */}
 
-                                <Button type="submit" bg="blue.500" width="full" mt={4} disabled={isSubmitting}>Iniciar Sesíon</Button>
+                                <Button type="submit" bg="blue.500" width="full" mt={8} disabled={isSubmitting}>Iniciar Sesíon</Button>
                             </form>
                         )}
                     </Formik>

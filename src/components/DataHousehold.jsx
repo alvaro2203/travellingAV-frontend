@@ -8,6 +8,7 @@ import { useMutation } from '@apollo/client'
 import IsAuth from '../graphql/hooks/useAuth';
 import { CREATE_LOCATION } from "../graphql/mutations/createLocation"
 import { CREATE_HOUSEHOLD } from "../graphql/mutations/createHousehold"
+import { GET_HOUSEHOLDS } from "../graphql/queries/households";
 import { useState } from "react";
 import AWS from 'aws-sdk'
 
@@ -31,17 +32,21 @@ export default function DataHousehold() {
     const { me } = IsAuth();
     const toast = useToast()
     const [addLocation, { loading: loadingLocation, error: errorLocation }] = useMutation(CREATE_LOCATION)
-    const [addHousehold, { loading: loadingHousehold, error: errorHousehold }] = useMutation(CREATE_HOUSEHOLD)
-    const [image1, setImage1] = useState(null)
-    const [image2, setImage2] = useState(null)
-    const [image3, setImage3] = useState(null)
+    const [addHousehold, { loading: loadingHousehold, error: errorHousehold }] = useMutation(CREATE_HOUSEHOLD, {
+        refetchQueries: [{ query: GET_HOUSEHOLDS }]
+    })
+    const [image1, setImage1] = useState({ name: null })
+    const [image2, setImage2] = useState({ name: null })
+    const [image3, setImage3] = useState({ name: null })
+
+    const date = new Date()
+    const today = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
 
     const handleFileInput = (e) => {
         const filesList = Object.values(e.target.files)
 
         filesList.map(file => {
             console.log(file.name)
-            //uploadFile(file)
         })
 
         setImage1(e.target.files[0])
@@ -142,14 +147,15 @@ export default function DataHousehold() {
                                         guests: values.huespedes,
                                         location: data.data.createLocation.location.id,
                                         user: me.id,
-                                        image1: image1.name,
-                                        image2: image2.name,
-                                        image3: image3.name,
+                                        image1: image1?.name,
+                                        image2: image2?.name,
+                                        image3: image3?.name,
                                         wifi: values.wifi,
                                         garage: values.garage,
-                                        pets: values.pets
+                                        pets: values.pets,
+                                        date: today
                                     }
-                                }).then((data) => {
+                                }).then(() => {
                                     toast({
                                         title: "Vivienda añadida",
                                         description: "Se ha añadido tu vivienda correctamente",

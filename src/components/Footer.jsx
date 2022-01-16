@@ -17,11 +17,15 @@ export default function Footer() {
 
   return (
     <Box
-      className='footer'
       bg={colorMode === 'dark' ? 'gray.10' : 'gray.800'}
       color={colorMode === 'dark' ? 'gray.700' : 'gray.200'}
     >
-      <Container as={Stack} maxW={'6xl'} py={10}>
+      <Container
+        as={Stack}
+        maxW={'6xl'}
+        py={10}
+        className='footer'
+      >
         <SimpleGrid
           templateColumns={{ sm: '1fr 1fr', md: '2fr 1fr 1fr 1fr 1fr' }}
           spacing={8}>
@@ -30,7 +34,7 @@ export default function Footer() {
               {APP_NAME}
             </Box>
             <Text fontSize={'sm'}>
-              © 2020 Chakra Templates. All rights reserved
+              © 2020 {APP_NAME}. All rights reserved
             </Text>
           </Stack>
           <Stack align={'flex-start'}>
@@ -38,16 +42,11 @@ export default function Footer() {
             <Link href={'#'}>Overview</Link>
             <Link href={'#'}>Features</Link>
             <Link href={'#'}>Tutorials</Link>
-            <Link href={'#'}>Pricing</Link>
-            <Link href={'#'}>Releases</Link>
           </Stack>
           <Stack align={'flex-start'}>
             <Text>Company</Text>
             <Link href={'#'}>About</Link>
-            <Link href={'#'}>Press</Link>
-            <Link href={'#'}>Careers</Link>
-            <Link href={'#'}>Contact</Link>
-            <Link href={'#'}>Partners</Link>
+            <Link href={'/Contact'}>Contact</Link>
           </Stack>
           <Stack align={'flex-start'}>
             <Text>Support</Text>
@@ -55,15 +54,13 @@ export default function Footer() {
             <Link href={'#'}>Terms of Service</Link>
             <Link href={'#'}>Legal</Link>
             <Link href={'#'}>Privacy Policy</Link>
-            <Link href={'#'}>Status</Link>
           </Stack>
           <Stack align={'flex-start'}>
             <Text>Follow Us</Text>
-            <Link href={'#'}>Facebook</Link>
-            <Link href={'#'}>Twitter</Link>
-            <Link href={'#'}>Dribbble</Link>
-            <Link href={'#'}>Instagram</Link>
-            <Link href={'#'}>LinkedIn</Link>
+            <Link href={'https://Facebook.com'}>Facebook</Link>
+            <Link href={'https://Twitter.com'}>Twitter</Link>
+            <Link href={'https://Instagram.com'}>Instagram</Link>
+            <Link href={'https://Linkedin.com'}>Linkedin</Link>
           </Stack>
         </SimpleGrid>
       </Container>

@@ -31,7 +31,9 @@ const REGISTER = gql`
 export default function Register() {
     let navigate = useHistory();
     const [show, setShow] = useState(false)
+    const [show2, setShow2] = useState(false)
     const handleClick = () => setShow(!show)
+    const handleClick2 = () => setShow2(!show2)
     const [register, { loading, error }] = useMutation(REGISTER)
 
     if (loading) return (
@@ -134,7 +136,7 @@ export default function Register() {
                                                 value={values.username}
                                             />
                                         </InputGroup>
-                                        <FormErrorMessage>{errors.username && touched.username}</FormErrorMessage>
+                                        <FormErrorMessage>{errors.username}</FormErrorMessage>
                                     </FormControl>
 
                                     <FormControl mt={4} isInvalid={errors.email && touched.email}>
@@ -153,7 +155,7 @@ export default function Register() {
                                                 value={values.email}
                                             />
                                         </InputGroup>
-                                        <FormErrorMessage>{errors.email && touched.email}</FormErrorMessage>
+                                        <FormErrorMessage>{errors.email}</FormErrorMessage>
                                     </FormControl>
                                 </Box>
 
@@ -184,7 +186,7 @@ export default function Register() {
                                                 />
                                             </InputRightElement>
                                         </InputGroup>
-                                        <FormErrorMessage>{errors.password && touched.password}</FormErrorMessage>
+                                        <FormErrorMessage>{errors.password}</FormErrorMessage>
                                     </FormControl>
 
                                     <FormControl mt={4} isInvalid={errors.rptPassword && touched.rptPassword}>
@@ -195,7 +197,7 @@ export default function Register() {
                                                 children={<MdLockOutline color="gray" />}
                                             />
                                             <Input
-                                                type={show ? "text" : "password"}
+                                                type={show2 ? "text" : "password"}
                                                 placeholder="Introduce tu contraseña"
                                                 name="rptPassword"
                                                 onChange={handleChange}
@@ -208,12 +210,12 @@ export default function Register() {
                                                     variant="ghost"
                                                     colorScheme="blue"
                                                     size="md"
-                                                    onClick={handleClick}
-                                                    icon={show ? <AiFillEyeInvisible /> : <AiFillEye />}
+                                                    onClick={handleClick2}
+                                                    icon={show2 ? <AiFillEyeInvisible /> : <AiFillEye />}
                                                 />
                                             </InputRightElement>
                                         </InputGroup>
-                                        <FormErrorMessage>{errors.rptPassword && touched.rptPassword}</FormErrorMessage>
+                                        <FormErrorMessage>{errors.rptPassword}</FormErrorMessage>
                                     </FormControl>
                                 </Box>
                             </Grid>

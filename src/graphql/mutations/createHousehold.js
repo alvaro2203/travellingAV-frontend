@@ -3,8 +3,8 @@ import { gql } from "@apollo/client"
 export const CREATE_HOUSEHOLD = gql`
 mutation addHousehold(
     $description: String!, $price: Float!, $bedrooms: Int!, $toilets: Int!, $guests: Int!, 
-    $location: ID!, $user: ID!, $image1: String!, $image2: String!, $image3: String!,
-    $wifi: Boolean!, $pets: Boolean!, $garage: Boolean!
+    $location: ID!, $user: ID!, $image1: String, $image2: String, $image3: String,
+    $wifi: Boolean!, $pets: Boolean!, $garage: Boolean!, $date: String!
 ){
     createHousehold(
      input:{
@@ -21,7 +21,8 @@ mutation addHousehold(
          wifi: $wifi,
          pets: $pets,
          garage: $garage,
-         user: $user
+         user: $user,
+         date: $date,
        }
      }
     ){

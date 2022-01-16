@@ -53,7 +53,7 @@ export default function Profile() {
       Key: file.name
     };
 
-    if (file.name !== me.avatar) {
+    if (file.name !== me?.avatar) {
       myBucket.putObject(params)
         .send((err) => {
           if (err) console.log(err)
@@ -62,13 +62,12 @@ export default function Profile() {
   }
 
   const initialValues = {
-    nombre: me.name,
-    apellido: me.surname,
-    telefono: me.telephone
+    nombre: me?.name,
+    apellido: me?.surname,
+    telefono: me?.telephone
   }
 
   const handleSubmit = async (values, { setSubmitting }) => {
-    console.log(values)
     setSubmitting(true)
     try {
       if (!values.nombre || !values.apellido || !values.telefono) {
@@ -83,7 +82,7 @@ export default function Profile() {
       } else {
         let avatar;
 
-        if (selectedFile?.name !== null && selectedFile?.name !== me?.avatar) {
+        if (selectedFile !== null && selectedFile?.name !== me?.avatar) {
           uploadFile(selectedFile)
         }
 
@@ -93,10 +92,10 @@ export default function Profile() {
 
         await updateUser({
           variables: {
-            id: me.id,
-            name: values.nombre,
-            surname: values.apellido,
-            telephone: values.telefono,
+            id: me?.id,
+            name: values?.nombre,
+            surname: values?.apellido,
+            telephone: values?.telefono,
             avatar: avatar
           }
         }).then(() => {
@@ -135,10 +134,10 @@ export default function Profile() {
 
       <Container maxW="container.xl" my={20}>
         <Center>
-          <Heading mt={10}>Bienvenid@ {me.username}</Heading>
+          <Heading my={12}>Bienvenid@ {me?.username}</Heading>
         </Center>
 
-        <Box my="10" textAlign='center'>
+        <Box my={12} textAlign='center'>
           <Text>Ayúdanos a completar tu perfil para una mejor experiencia con la plataforma</Text>
           <Text>Solo tienes que rellenar los siguientes datos: </Text>
         </Box>
@@ -154,21 +153,16 @@ export default function Profile() {
             handleChange
           }) => (
             <Form onSubmit={handleSubmit}>
-
-              {/* <FormControl my="5">
-                  <Grid templateColumns="repeat(3, 1fr)" gap={1}>
-                    <FormLabel textAlign="center">Avatar: </FormLabel>
-                    <input type="file" onChange={handleFileInput} />
-                  </Grid>
-                </FormControl> */}
-              <Box p={10}>
+              <Box p={10} my={12}>
                 <Center>
                   <Grid templateColumns={{ lg: 'repeat(7, 1fr)', md: 'repeat(5, 1fr)', base: 'repeat(3, 1fr)' }} gap={6}>
                     <GridItem colSpan={1} colStart={{ lg: 3, md: 2, base: 2 }}>
                       <Box>
                         <div className="profile-img">
                           <img
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5yTxBxqX7UPLILheEuZbgOuYver2PQLQxuQ&usqp=CAU"
+                            src={me?.avatar
+                              ? `https://travellingav.s3.eu-west-3.amazonaws.com/${me?.avatar}`
+                              : 'https://simulacionymedicina.es/wp-content/uploads/2015/11/default-avatar-300x300-1.jpg'}
                             alt=""
                           />
                           <div className="file">
@@ -183,11 +177,10 @@ export default function Profile() {
                     <GridItem colSpan={{ lg: 3, md: 3, base: 3 }}>
                       <FormControl mt='6'>
                         <Grid templateColumns="repeat(3, 1fr)" gap={1}>
-                          {/* <FormLabel textAlign="center">Nombre: </FormLabel> */}
                           <Text textAlign='center' fontWeight='bold'>Nombre: </Text>
                           <Input
                             name="nombre"
-                            value={values.nombre}
+                            value={values.nombre ? values.nombre : undefined}
                             onChange={handleChange}
                             variant='flushed'
                             size='sm'
@@ -197,11 +190,10 @@ export default function Profile() {
 
                       <FormControl my="6">
                         <Grid templateColumns="repeat(3, 1fr)" gap={1}>
-                          {/* <FormLabel textAlign="center">Apellido: </FormLabel> */}
                           <Text textAlign='center' fontWeight='bold'>Apellido: </Text>
                           <Input
                             name="apellido"
-                            value={values.apellido}
+                            value={values.apellido ? values.apellido : undefined}
                             onChange={handleChange}
                             variant='flushed'
                             size='sm'
@@ -211,12 +203,11 @@ export default function Profile() {
 
                       <FormControl my="6">
                         <Grid templateColumns="repeat(3, 1fr)" gap={1}>
-                          {/* <FormLabel textAlign="center">Teléfono: </FormLabel> */}
                           <Text textAlign='center' fontWeight='bold'>Teléfono: </Text>
                           <Input
                             type="number"
                             name="telefono"
-                            value={values.telefono}
+                            value={values.telefono ? values.telefono : undefined}
                             onChange={handleChange}
                             variant='flushed'
                             size='sm'

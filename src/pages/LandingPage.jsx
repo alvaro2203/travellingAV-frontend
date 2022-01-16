@@ -140,7 +140,8 @@ export default function LandingPage() {
 
       <TextBeginning
         title="busca tu alojamiento"
-        text="Snippy is a rich coding snippets app that lets you create your own code snippets, categorize them, and even sync them in the cloud so you can use them anywhere. All that is free!"
+        text="Bienvenido a TravellingAV, aquí podrás encontrar el mejor sitio para pasar tus vacaciones. Elige la zona, y a buscar!!"
+        img="https://images.unsplash.com/photo-1499591934245-40b55745b905?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHJhdmVsbGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'"
       />
 
       <Container maxW="container.xl">
@@ -273,7 +274,7 @@ export default function LandingPage() {
           templateColumns={{ lg: 'repeat(3, 1fr)', md: 'repeat(2, 1fr)', base: 'repeat(1, 1fr)' }}
           gap={{ lg: 6, md: 4, base: 1 }}>
           {allData?.length === 0
-            ? <Box mb="14"><Heading>No se han encontrado coincidencias</Heading></Box>
+            ? <Box my={12}><Heading>No se han encontrado coincidencias</Heading></Box>
             : allData?.map((household, index) => (
               <HouseholdCard key={index} props={household} />
             ))
@@ -282,6 +283,6 @@ export default function LandingPage() {
       </Container>
 
       <Footer />
-    </div>
+    </div >
   );
 }

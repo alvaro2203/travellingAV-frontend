@@ -38,17 +38,17 @@ export default function Favorites() {
                             <Heading my='20'>Aún no has añadido ninguna vivienda a tus favoritos..</Heading>
                         </Center>
                         <Center>
-                            <Text mb='20'><Link to='/' style={{ color: "#00AFFF" }}>Haz click aquí para empezar a buscar vivendas</Link></Text>
+                            <Text my='20'><Link to='/' style={{ color: "#00AFFF" }}>Haz click aquí para empezar a buscar vivendas</Link></Text>
                         </Center>
                     </Box>
                     : <>
-                        <Box my="10">
+                        <Box mt={10}>
                             <Center>
-                                <Heading mt={10}>Estas son tus viviendas favoritas !</Heading>
+                                <Heading my={10}>Estas son tus viviendas favoritas !</Heading>
                             </Center>
                         </Box>
 
-                        <Box my="10">
+                        <Box mt={10} mb={16}>
                             <Grid
                                 templateColumns={{ lg: "repeat(3, 1fr)", md: "repeat(2, 1fr)", base: "repeat(1, 1fr)" }}
                                 gap={{ lg: 6, md: 3, base: 1 }}
