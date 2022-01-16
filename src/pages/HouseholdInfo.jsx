@@ -17,7 +17,6 @@ import { DELETE_FAVORITE_HOUSEHOLD } from '../graphql/mutations/deleteFavoriteHo
 import { useMutation } from '@apollo/client';
 
 //icons
-import { MdLocalShipping } from 'react-icons/md';
 import { HiHeart, HiOutlineHeart } from "react-icons/hi";
 
 export default function HouseholdInfo() {

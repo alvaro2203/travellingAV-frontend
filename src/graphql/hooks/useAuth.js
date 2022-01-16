@@ -3,7 +3,7 @@ import { useQuery } from "@apollo/client"
 import { IS_AUTH } from "../queries/isAuth"
 
 const IsAuth = () => {
-    const { data: dataMe, loading: loadingMe } = useQuery(IS_AUTH);
+    const { data: dataMe, loading: loadingMe, refetch } = useQuery(IS_AUTH);
 
     const me = useMemo(() => {
         if (!dataMe) return
@@ -13,6 +13,7 @@ const IsAuth = () => {
     return {
         me,
         loadingMe,
+        refetch
     }
 }
 

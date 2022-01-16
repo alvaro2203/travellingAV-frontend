@@ -4,7 +4,6 @@ import {
 } from "@chakra-ui/react"
 import { APP_NAME, AUTH_TOKEN } from "../utils/constans";
 import useMe from '../graphql/hooks/useMe';
-import { client } from '../index'
 
 //css
 import '../styles/header.css'
@@ -20,13 +19,12 @@ export default function Header() {
   let isCompleted = false
   let navigate = useHistory();
 
+  if (!me) return null
+
   const logOut = () => {
     localStorage.removeItem(AUTH_TOKEN)
-    client.resetStore()
     navigate.push("/login")
   }
-
-  if (!me) return null
 
   if (me.name && me.surname && me.telephone) isCompleted = true
 

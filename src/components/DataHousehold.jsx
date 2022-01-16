@@ -43,12 +43,6 @@ export default function DataHousehold() {
     const today = date.getDate() + "-" + (date.getMonth() + 1) + "-" + date.getFullYear()
 
     const handleFileInput = (e) => {
-        const filesList = Object.values(e.target.files)
-
-        filesList.map(file => {
-            console.log(file.name)
-        })
-
         setImage1(e.target.files[0])
         setImage2(e.target.files[1])
         setImage3(e.target.files[2])

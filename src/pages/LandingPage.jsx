@@ -1,25 +1,7 @@
 import {
-  Container, Spinner, Box, Text, Grid, GridItem, Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerCloseButton,
-  useDisclosure,
-  Heading,
-  Radio,
-  Stack,
-  RadioGroup,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Tooltip,
+  Container, Spinner, Box, Text, Grid, GridItem, Slider, SliderTrack, SliderFilledTrack, SliderThumb, Button,
+  Drawer, DrawerBody, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerContent, DrawerCloseButton, useDisclosure,
+  Heading, Radio, Stack, RadioGroup, Input, InputGroup, InputLeftElement, Tooltip,
 } from "@chakra-ui/react"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
@@ -140,7 +122,7 @@ export default function LandingPage() {
 
       <TextBeginning
         title="busca tu alojamiento"
-        text="Bienvenido a TravellingAV, aquí podrás encontrar el mejor sitio para pasar tus vacaciones. Elige la zona, y a buscar!!"
+        text="Bienvenido a TravellingAV, aquí podrás encontrar el mejor sitio para pasar tus vacaciones. Elige la zona, y a buscar !!"
         img="https://images.unsplash.com/photo-1499591934245-40b55745b905?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dHJhdmVsbGluZ3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60'"
       />
 

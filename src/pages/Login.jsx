@@ -10,6 +10,7 @@ import { useMutation, gql } from '@apollo/client'
 import { Formik } from 'formik'
 import { AUTH_TOKEN, APP_NAME } from "../utils/constans";
 import { client } from '../index'
+import IsAuth from "../graphql/hooks/useAuth";
 
 //icons
 import { MdAlternateEmail, MdLockOutline } from "react-icons/md";
@@ -27,6 +28,7 @@ export default function Login() {
     let navigate = useHistory();
     const [show, setShow] = useState(false)
     const [notExists, setNotExists] = useState(false)
+    const { refetch } = IsAuth()
     const handleClick = () => setShow(!show)
     const [login, { loading }] = useMutation(LOGIN)
 
@@ -61,16 +63,16 @@ export default function Login() {
                                 }).then(data => {
                                     if (data) {
                                         localStorage.setItem(AUTH_TOKEN, data.data.login.jwt)
-                                        client.resetStore()
-                                        navigate.push("/")
+                                        client.resetStore().then(() => {
+                                            refetch()
+                                            navigate.push("/")
+                                        })
                                     }
                                 })
-
                             } catch (e) {
                                 setNotExists(true)
                                 setSubmitting(false)
                             }
-
                         }}
                     >
                         {({
