@@ -71,8 +71,6 @@ export default function UpdateHousehold(householdProps) {
         </Box>
     )
 
-    console.log(props)
-
     return (
         <Formik
             initialValues={initialValues}

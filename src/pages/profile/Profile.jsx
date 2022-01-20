@@ -21,8 +21,8 @@ const REGION = 'eu-west-3'
 AWS.config.update({
   // accessKeyId: process.env.REACT_APP_ACCESS_KEY,
   // secretAccessKey: process.env.REACT_APP_SECRET_ACCESS_KEY,
-  accessKeyId: 'AKIAYP7EIJRTZO7OS6OB',
-  secretAccessKey: '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',
+  accessKeyId: 'AKIAYP7EIJRTZRER2VQX',
+  secretAccessKey: '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',
 })
 
 const myBucket = new AWS.S3({

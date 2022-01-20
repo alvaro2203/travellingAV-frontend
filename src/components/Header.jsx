@@ -162,7 +162,7 @@ export default function Header() {
                 bg="blue.600"
                 name={me.username}
                 size="sm"
-              // src={`https://travellingav.s3.eu-west-3.amazonaws.com/${me.avatar}`}
+                src={`https://travellingav.s3.eu-west-3.amazonaws.com/${me.avatar}`}
               />
             </MenuButton>
             <MenuList alignItems="center">
@@ -172,7 +172,7 @@ export default function Header() {
                   bg="blue.600"
                   name={me.username}
                   size="xl"
-                // src={`https://travellingav.s3.eu-west-3.amazonaws.com/${me.avatar}`}
+                  src={`https://travellingav.s3.eu-west-3.amazonaws.com/${me.avatar}`}
                 />
               </Center>
               <br />

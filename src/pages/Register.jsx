@@ -118,8 +118,8 @@ export default function Register() {
                         isSubmitting,
                     }) => (
                         <form onSubmit={handleSubmit}>
-                            <Grid gridTemplateColumns="repeat(2, 1fr)" gap={6}>
-                                <Box my={8} w="100%">
+                            <Grid gridTemplateColumns={{ lg: "repeat(2, 1fr)", base: "repeat(1, 1fr)" }} gap={6}>
+                                <Box my={{ lg: 8, base: 1 }} w="100%">
                                     <FormControl mt={4} isInvalid={errors.username && touched.username}>
                                         <FormLabel>Nombre de usuario</FormLabel>
                                         <InputGroup>
@@ -159,8 +159,8 @@ export default function Register() {
                                     </FormControl>
                                 </Box>
 
-                                <Box my={8} w="100%">
-                                    <FormControl mt={4} isInvalid={errors.password && touched.password}>
+                                <Box my={{ lg: 8 }} w="100%">
+                                    <FormControl mt={{ lg: 4 }} isInvalid={errors.password && touched.password}>
                                         <FormLabel>Contraseña</FormLabel>
                                         <InputGroup>
                                             <InputLeftElement

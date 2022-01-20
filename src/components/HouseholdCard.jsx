@@ -19,8 +19,7 @@ export default function HouseholdCard(props) {
                     }}
                 >
                     <Image
-                        src="https://media.istockphoto.com/photos/close-up-of-small-blue-gray-mobile-home-with-a-front-and-side-porch-picture-id1297687835?b=1&k=20&m=1297687835&s=170667a&w=0&h=Kj4yvWxQxYo_fc9801IJZrHCAXa06LNsiRLjovVfoQQ="
-                    //src={`https://travellingav.s3.eu-west-3.amazonaws.com/${householdProps?.image1}`}
+                        src={`https://travellingav.s3.eu-west-3.amazonaws.com/${householdProps?.image1}`}
                     />
 
                     <Box p="6">
@@ -69,8 +68,7 @@ export default function HouseholdCard(props) {
                         </Box>
                         <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
                             <Avatar
-                                src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
-                                // src={`https://travellingav.s3.eu-west-3.amazonaws.com/${householdProps?.user?.avatar}`}
+                                src={`https://travellingav.s3.eu-west-3.amazonaws.com/${householdProps?.user?.avatar}`}
                                 alt={'Author'}
                             />
                             <Stack direction={'column'} spacing={0} fontSize={'sm'}>

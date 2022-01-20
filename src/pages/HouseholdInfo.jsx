@@ -161,7 +161,7 @@ export default function HouseholdInfo() {
                                 <Avatar
                                     size="md"
                                     name={householdProps.user.username}
-                                // src={`https://travellingav.s3.eu-west-3.amazonaws.com/${householdProps.user.avatar}`}
+                                    src={`https://travellingav.s3.eu-west-3.amazonaws.com/${householdProps.user.avatar}`}
                                 />
                             </Stack>
                         </Grid>
